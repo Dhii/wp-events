@@ -1,0 +1,23 @@
+{
+    "name": "dhii/wp-events",
+    "description": "A PSR-14 compliant event wrapper for WordPress.",
+    "authors": [
+        {
+            "name": "Miguel Muscat",
+            "email": "miguelmuscat93@gmail.com"
+        },
+        {
+            "name": "Anton Ukhanev",
+            "email": "xedin.unknown@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Dhii/psr-14"
+        }
+    ],
+    "require": {
+        "dhii/psr-14": "~0.1"
+    }
+}
