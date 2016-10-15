@@ -1,14 +1,12 @@
 {
     "name": "dhii/wp-events",
     "description": "A PSR-14 compliant event wrapper for WordPress.",
+    "type": "library",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Miguel Muscat",
-            "email": "miguelmuscat93@gmail.com"
-        },
-        {
-            "name": "Anton Ukhanev",
-            "email": "xedin.unknown@gmail.com"
+            "name": "Dhii Team",
+            "email": "development@dhii.co"
         }
     ],
     "minimum-stability": "dev",
@@ -17,6 +15,11 @@
     },
     "require-dev": {
         "dhii/php-cs-fixer-config": "dev-php-5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dhii\\WpEvents\\" : "src/"
+        }
     },
     "repositories": [
         {
