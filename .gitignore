@@ -1,2 +1,4 @@
 /nbproject/
 /vendor/
+/test/log/
+/test/coverage/
