@@ -14,7 +14,8 @@
         "dhii/psr-14": "~0.1"
     },
     "require-dev": {
-        "dhii/php-cs-fixer-config": "dev-php-5.3"
+        "dhii/php-cs-fixer-config": "dev-php-5.3",
+        "phpunit/phpunit": "4.*"
     },
     "autoload": {
         "psr-4": {
