@@ -88,7 +88,7 @@ class EventManager implements EventManagerInterface
      */
     protected function getCallableNumParams($callable)
     {
-        return $this->getCallableReflection($callable)->getNumberOfParameter();
+        return $this->getCallableReflection($callable)->getNumberOfParameters();
     }
 
     /**
@@ -101,7 +101,7 @@ class EventManager implements EventManagerInterface
     protected function getCallableReflection($callable)
     {
         return is_array($callable) ?
-            new ReflectionMethod($callable[0], $callable[1]) :
-            new ReflectionFunction($callable);
+            new \ReflectionMethod($callable[0], $callable[1]) :
+            new \ReflectionFunction($callable);
     }
 }
