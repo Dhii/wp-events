@@ -16,7 +16,9 @@
     },
     "require-dev": {
         "dhii/php-cs-fixer-config": "dev-php-5.3",
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "4.*",
+        "10up/wp_mock": "dev-dev",
+        "ptrofimov/xpmock": "^1.1"
     },
     "autoload": {
         "psr-4": {
