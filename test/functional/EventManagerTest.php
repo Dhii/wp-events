@@ -5,6 +5,7 @@ namespace Dhii\WpEvents\FuncTest;
 use Xpmock\TestCase;
 use WP_Mock;
 use Mockery;
+use Psr\EventManager\EventInterface;
 
 /**
  * Tests {@see Dhii\WpEvents\EventManager}.
@@ -129,7 +130,7 @@ class EventManagerTest extends TestCase
                 ->makePartial()
                 ->shouldAllowMockingProtectedMethods();
         $name = uniqid('event');
-        $target = null;
+        $target = (object) array('name' => uniqid('name'));
         $args = array(
             'apple',
             'banana',
@@ -138,10 +139,38 @@ class EventManagerTest extends TestCase
 
         $subject->shouldReceive('_runHandlers')
                 ->once()
-                ->withArgs(array(
+                ->with(
                     $name,
-                    Mockery::type('array'),
-                ));
+                    Mockery::on(function($arg) use ($name, &$target, $args) {
+                        if (!is_array($arg)) {
+                            return false;
+                        }
+
+                        $count = count($arg);
+                        if ($count !== 1) {
+                            return false;
+                        }
+
+                        $arg = $arg[0];
+                        if (!($arg instanceof EventInterface)) {
+                            return false;
+                        }
+
+                        if ($arg->getName() !== $name) {
+                            return false;
+                        }
+
+                        if ($arg->getTarget() !== $target) {
+                            return false;
+                        }
+
+                        if ($arg->getParams() !== $args) {
+                            return false;
+                        }
+
+                        return true;
+                    })
+                );
 
         $subject->trigger($name, $target, $args);
     }
