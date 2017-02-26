@@ -117,4 +117,59 @@ class EventManagerTest extends TestCase
         WP_Mock::expectFilterAdded($name, $callback, $priority, $numArgs);
         $subject->this()->_addHook($name, $callback, $priority, $numArgs);
     }
+
+    /**
+     * Tests whether the `trigger()` method correctly triggers events.
+     *
+     * @since [*next-version*]
+     */
+    public function testTrigger()
+    {
+        $subject = Mockery::mock(static::TEST_SUBJECT_CLASS_NAME)
+                ->makePartial()
+                ->shouldAllowMockingProtectedMethods();
+        $name = uniqid('event');
+        $target = null;
+        $args = array(
+            'apple',
+            'banana',
+            'orange'
+        );
+
+        $subject->shouldReceive('_runHandlers')
+                ->once()
+                ->withArgs(array(
+                    $name,
+                    Mockery::type('array'),
+                ));
+
+        $subject->trigger($name, $target, $args);
+    }
+
+    /**
+     * Verifies that `_runHandlers()` executes a given action correctly.
+     *
+     * @since [*next-version*]
+     */
+    public function testRunHandlers()
+    {
+        $subject = $this->createInstance();
+        $name = uniqid('event');
+        $target = null;
+        $primary = 'apple';
+        $secondary = 'banana';
+        $tertiary = 'kiwi';
+        $args = array(
+            $primary,
+        );
+        $return = 'pineapple';
+
+        WP_Mock::onFilter($name)
+                ->with($args)
+                ->reply($return);
+
+        $result = $subject->this()->_runHandlers($name, $args, $target);
+
+        $this->assertEquals($return, $result, 'Handlers were not run correctly');
+    }
 }
