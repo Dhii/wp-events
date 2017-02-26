@@ -74,20 +74,24 @@ class EventManagerTest extends TestCase
      */
     public function testAttach()
     {
-        $subject = $this->createInstance();
-        $name = 'myevent';
-        $priority = 10;
+        $subject = Mockery::mock(static::TEST_SUBJECT_CLASS_NAME)
+                ->makePartial()
+                ->shouldAllowMockingProtectedMethods();
+        $name = uniqid('event');
+        $priority = (int) rand(1, 100);
         $output = uniqid('Hello Test!');
         $callback = function() use ($output) {
             echo $output;
         };
-        array(
-            'args'      => array(),
-            'times'     => 1,
-            'return'    => Mockery::type('Psr\\EventManager\\EventInterface')
-        );
 
-        WP_Mock::expectFilterAdded($name, $callback, $priority);
+        $subject->shouldReceive('_addHook')
+                ->once()
+                ->withArgs(array(
+                    $name,
+                    Mockery::type('callable'),
+                    $priority,
+                    1
+                ));
 
         $subject->attach($name, $callback, $priority);
     }
