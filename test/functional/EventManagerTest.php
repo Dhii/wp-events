@@ -201,4 +201,38 @@ class EventManagerTest extends TestCase
 
         $this->assertEquals($return, $result, 'Handlers were not run correctly');
     }
+
+    /**
+     * Tests whether a callback wrapper for a handler can be created correctly.
+     *
+     * @since [*next-version*]
+     */
+    public function testCreateCallbackWrapper()
+    {
+        $subject = $this->createInstance();
+        $me = $this;
+        $name = \uniqid('event');
+        $params = array(
+            'apple',
+            'orange',
+            'banana',
+        );
+
+        $handler = function() use (&$me, $params) {
+            $args = func_get_args();
+            $me->assertCount(1, $args, 'Wrong number of arguments received by handler');
+
+            $event = $args[0];
+            $me->assertInstanceOf('Psr\\EventManager\\EventInterface', $event, 'Event received by handler is not a valid event');
+            /* @var $event \Psr\EventManager\EventInterface */
+
+            $eventParams = $event->getParams();
+            $me->assertEquals($params, $eventParams, 'Parameters retrieved in event handler are not what was passed');
+        };
+
+        $wrapper = $subject->this()->_createCallbackWrapper($name, $handler);
+        $this->assertInstanceOf('Closure', $wrapper, 'Wrapper is not a valid closure');
+
+        \call_user_func_array($wrapper, $params);
+    }
 }
