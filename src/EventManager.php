@@ -68,13 +68,9 @@ class EventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = array())
     {
-        $args = empty($argv)
-            ? array(null)
-            : $argv;
-        array_push($args, $target);
-        $eventObject = $this->normalizeEvent($event);
+        $event = $this->normalizeEvent($event, $target, $argv);
 
-        return $this->_runHandlers($eventObject->getName(), $args);
+        return $this->_runHandlers($event->getName(), array($event));
     }
 
     /**
@@ -96,15 +92,56 @@ class EventManager implements EventManagerInterface
     /**
      * Normalizes the given event into an Event instance.
      *
+     * @since [*next-version*]
+     *
      * @param EventInterface|string $event Event instance or an event name string.
+     * @param object $target The target of the event.
+     * @param array $argv Arguments for the event.
      *
      * @return EventInterface The event instance.
      */
-    protected function normalizeEvent($event)
+    protected function normalizeEvent($event, $target = null, $argv = array())
     {
-        return ($event instanceof EventInterfacevent)
-            ? $event
-            : new Event($event);
+        $normalizedEvent = $event instanceof EventInterface
+                ? $event
+                : $this->_createEvent($event, $argv, $target);
+        /* @var $normalizedEvent \Psr\EventManager\EventInterface */
+        $normalizedEvent->setParams($this->_mergeArgs($normalizedEvent->getParams(), $argv));
+
+        return $normalizedEvent;
+    }
+
+    /**
+     * Merges values from an array into a base array, overwriting values irrespective of type.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $base The array to merge into.
+     * @param array $other The array to merge from.
+     */
+    protected function _mergeArgs($base, $other)
+    {
+        foreach ($other as $_idx => $_element) {
+            $base[$_idx] = $_element;
+        }
+
+        return $base;
+    }
+
+    /**
+     * Creates a new event instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name        The event name.
+     * @param array  $params      The event parameters.
+     * @param mixed  $target      The target object. Used for context.
+     * @param bool   $propagation True to propagate the event, false to not.
+     * @return Event The new event.
+     */
+    protected function _createEvent($name, $params = array(), $target = null, $propagation = true)
+    {
+        return new Event($name, $params, $target, $propagation);
     }
 
     /**
