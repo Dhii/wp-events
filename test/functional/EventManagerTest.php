@@ -257,4 +257,36 @@ class EventManagerTest extends TestCase
         $result = \call_user_func_array($wrapper2, array($result));
         $result = \call_user_func_array($wrapper3, array($result));
     }
+
+    /**
+     * Tests whether callback wrapper cache works correctly.
+     *
+     * The cache should return the same wrapper for the same name/callback pair.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetCallbackWrapper()
+    {
+        $subject = $this->createInstance();
+        $name = \uniqid('event');
+        $otherName = \uniqid('other-event');
+
+        $handler1 = function() {
+            echo 'Just do something';
+        };
+
+        $handler2 = function($event) {
+            echo 'Just do something else';
+        };
+
+        $wrapper1 = $subject->this()->_getCallbackWrapper($name, $handler1);
+        $wrapper2 = $subject->this()->_getCallbackWrapper($name, $handler1);
+        $this->assertSame($wrapper1, $wrapper2, 'Different wrappers returned for same handler');
+
+        $wrapper3 = $subject->this()->_getCallbackWrapper($name, $handler2);
+        $this->assertNotSame($wrapper2, $wrapper3, 'Same wrapper returned for different handlers');
+
+        $wrapper4 = $subject->this()->_getCallbackWrapper($otherName, $handler1);
+        $this->assertNotSame($wrapper1, $wrapper4, 'Same wrapper returned for same handler but different event name');
+    }
 }
