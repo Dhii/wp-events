@@ -95,4 +95,26 @@ class EventManagerTest extends TestCase
 
         $subject->attach($name, $callback, $priority);
     }
+
+    /**
+     * Tests that the `_addHook()` method runs as expected.
+     *
+     * It must add a specific filter, depending on how it is called.
+     *
+     * @since [*next-version*]
+     */
+    public function testAddHook()
+    {
+        $subject = $this->createInstance();
+        $name = uniqid('event');
+        $priority = (int) rand(1, 100);
+        $output = uniqid('Hello Test!');
+        $callback = function() use ($output) {
+            echo $output;
+        };
+        $numArgs = (int) rand(1, 10);
+
+        WP_Mock::expectFilterAdded($name, $callback, $priority, $numArgs);
+        $subject->this()->_addHook($name, $callback, $priority, $numArgs);
+    }
 }
