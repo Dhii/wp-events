@@ -63,6 +63,8 @@ class EventManager implements EventManagerInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
      */
     public function trigger($event, $target = null, $argv = array())
     {
@@ -71,7 +73,24 @@ class EventManager implements EventManagerInterface
             : $argv;
         array_push($args, $target);
         $eventObject = $this->normalizeEvent($event);
-        \apply_filters_ref_array($eventObject->getName(), $args);
+
+        return $this->_runHandlers($eventObject->getName(), $args);
+    }
+
+    /**
+     * Runs all handlers for the specified hook.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name Name of the hook to run handlers for.
+     * @param array $args Args to pass to the handler.
+     * @return mixed The result returned by the handlers.
+     */
+    protected function _runHandlers($name, array $args = array())
+    {
+        array_unshift($args, $name);
+        $result = call_user_func_array('apply_filters', $args);
+        return $result;
     }
 
     /**
