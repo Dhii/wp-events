@@ -218,7 +218,7 @@ class EventManagerTest extends TestCase
             'banana',
         );
 
-        $handler = function() use (&$me, $params) {
+        $handler1 = function() use (&$me, $params) {
             $args = func_get_args();
             $me->assertCount(1, $args, 'Wrong number of arguments received by handler');
 
@@ -230,9 +230,31 @@ class EventManagerTest extends TestCase
             $me->assertEquals($params, $eventParams, 'Parameters retrieved in event handler are not what was passed');
         };
 
-        $wrapper = $subject->this()->_createCallbackWrapper($name, $handler);
-        $this->assertInstanceOf('Closure', $wrapper, 'Wrapper is not a valid closure');
+        $handler2 = function($event) use (&$me, $params) {
+            $args = func_get_args();
+            $me->assertCount(1, $args, 'Wrong number of arguments received by handler');
 
-        \call_user_func_array($wrapper, $params);
+            $event = $args[0];
+            $me->assertInstanceOf('Psr\\EventManager\\EventInterface', $event, 'Event received by handler is not a valid event');
+            /* @var $event \Psr\EventManager\EventInterface */
+
+            $eventParams = $event->getParams();
+            $me->assertEquals($params, $eventParams, 'Parameters retrieved in event handler are not what was passed');
+
+            $event->stopPropagation(true);
+        };
+
+        $handler3 = function() use (&$me, $params) {
+            $me->fail('Stopping propagation did not work');
+        };
+
+        $wrapper1 = $subject->this()->_createCallbackWrapper($name, $handler1);
+        $wrapper2 = $subject->this()->_createCallbackWrapper($name, $handler2);
+        $wrapper3 = $subject->this()->_createCallbackWrapper($name, $handler3);
+        $this->assertInstanceOf('Closure', $wrapper1, 'Wrapper is not a valid closure');
+
+        $result = \call_user_func_array($wrapper1, $params);
+        $result = \call_user_func_array($wrapper2, array($result));
+        $result = \call_user_func_array($wrapper3, array($result));
     }
 }
