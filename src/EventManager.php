@@ -26,12 +26,21 @@ class EventManager implements EventManagerInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
      */
     public function attach($event, $callback, $priority = 10)
     {
         $eventObject   = $this->normalizeEvent($event);
         $numArgsToPass = $this->getCallableNumParams($callback);
-        \add_filter($eventObject->getName(), $callback, $priority, $numArgsToPass + 1);
+        $this->_addHook($name, $callback, $priority, 1);
+    }
+
+    protected function _addHook($name, $handler, $priority = 10, $numArgs = 1)
+    {
+        \add_filter($name, $handler, $priority, $numArgs);
+
+        return $this;
     }
 
     /**
