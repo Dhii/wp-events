@@ -67,7 +67,7 @@ class EventManager implements EventManagerInterface
     }
 
     /**
-     * Gets a cached callback wrapper, creating it if no wrapper exists yet for given parameters.
+     * Gets a cached event callback wrapper, creating it if no wrapper exists.
      *
      * @since [*next-version*]
      *
@@ -79,7 +79,7 @@ class EventManager implements EventManagerInterface
      */
     protected function _getCallbackWrapper($name, $callback)
     {
-        $cbHash = $this->_hashCallable($callback);
+        $cbHash = $this->_hashEventHandler($name, $callback);
         if (!isset($this->callbackWrappers[$cbHash])) {
             $this->callbackWrappers[$cbHash] = $this->_createCallbackWrapper($name, $callback);
         }
@@ -260,6 +260,24 @@ class EventManager implements EventManagerInterface
         return is_array($callable) ?
             new \ReflectionMethod($callable[0], $callable[1]) :
             new \ReflectionFunction($callable);
+    }
+
+    /**
+     * Hashes an event name / event handler pair.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     * @param callable $handler The handler of the event.
+     *
+     * @return string The hash of the pair.
+     */
+    protected function _hashEventHandler($name, $handler)
+    {
+        $handlerHash = $this->_hashCallable($handler);
+        $pair = $name.'|'.$handlerHash;
+
+        return $this->_hashScalar($pair);
     }
 
     /**
