@@ -102,7 +102,7 @@ class EventManager implements EventManagerInterface
      * @param callable $callback The callback to wrap.
      * @return \Closure The wrapper.
      */
-    protected function _createCallbackWrapper($name, &$callback)
+    protected function _createCallbackWrapper($name, $callback)
     {
         $me = $this;
         return function() use ($name, &$callback, &$me) {
