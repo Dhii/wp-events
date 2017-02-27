@@ -33,10 +33,10 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      *
      * @since [*next-version*]
      */
-    protected function _attach($name, $callback, $priority = self::DEFAULT_PRIORITY)
+    protected function _attach($name, $callback, $priority = self::DEFAULT_PRIORITY, $numArgs = 1)
     {
         $handler = $this->_getHandlerWrapper($name, $callback);
-        $this->_addHook($name, $handler, $priority, 1);
+        $this->_addHook($name, $handler, $priority, $numArgs);
 
         return $this;
     }
