@@ -175,16 +175,24 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
         $me = $this;
 
         return function () use ($name, &$callback, &$me) {
+            /* @var $me AbstractNormalizedEventManager */
+
             $args  = \func_get_args();
-            $event = \count($args) && $args[0] instanceof EventInterface
-                    ? $args[0]
-                    : $me->createEvent($name, $args);
-            /* @var $event \Dhii\WpEvents\Event */
+            $isEvent = \count($args) && $args[0] instanceof EventInterface;
+
+            $event = $isEvent
+                ? $args[0]
+                : $me->_getCachedEvent($name, $args);
+
+            /* @var $event \Psr\EventManager\EventInterface */
+
             if (!$event->isPropagationStopped()) {
                 \call_user_func_array($callback, array($event));
             }
 
-            return $event;
+            return $isEvent
+                ? $event
+                : $event->getParam(0);
         };
     }
 }
