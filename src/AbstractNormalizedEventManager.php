@@ -13,6 +13,119 @@ use Psr\EventManager\EventInterface;
 abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
 {
     /**
+     * The priority of the cache clear handler.
+     *
+     * @since [*next-version*]
+     */
+    const CACHE_CLEAR_HANDLER_PRIORITY = PHP_INT_MAX;
+
+    /**
+     * A cache of event instances.
+     *
+     * These instances are created during event chains and are destroyed at
+     * the end of event chains.
+     *
+     * @since [*next-version*]
+     *
+     * @var EventInterface[]
+     */
+    protected $eventCache;
+
+    /**
+     * Creates an event instance in cache.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     *
+     * @return EventInterface The created event instance.
+     */
+    protected function _createCachedEvent($name)
+    {
+        return $this->eventCache[$name] = $this->_createEvent($name);
+    }
+
+    /**
+     * Checks if an event instance exists in cache for the given event name.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     *
+     * @return bool True if an event instance exists for the given event name, false otherwise.
+     */
+    protected function _hasCachedEvent($name)
+    {
+        return isset($this->eventCache[$name]);
+    }
+
+    /**
+     * Gets the cached event instance for the given name, creating it if needed.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     * @param array  $args Optional array of event arguments.
+     *
+     * @return EventInterface The event instance.
+     */
+    protected function _getCachedEvent($name, array $args = array())
+    {
+        if (!$this->_hasCachedEvent($name)) {
+            // Create event instance if it does not exist
+            $event = $this->_createCachedEvent($name);
+            // Register handler to delete the event instance at the end of the chain
+            $this->_registerCacheClearHandler($event);
+        }
+
+        $event = $this->eventCache[$name];
+
+        return $this->_normalizeEvent($event, null, $args);
+    }
+
+    /**
+     * Removes a cached event instance.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     *
+     * @return $this This instance.
+     */
+    protected function _removeCachedEvent($name)
+    {
+        unset($this->eventCache[$name]);
+
+        return $this;
+    }
+
+    /**
+     * Registers a clear cache handler.
+     *
+     * @since [*next-version*]
+     *
+     * @param EventInterface $event The event instance to clear from cache.
+     *
+     * @return $this This instance.
+     */
+    protected function _registerCacheClearHandler(EventInterface $event)
+    {
+        $me       = $this;
+        $priority = static::CACHE_CLEAR_HANDLER_PRIORITY;
+
+        $callback = function($value) use ($me, $event, &$callback, $priority) {
+            $me->_removeCachedEvent($event->getName());
+            $me->_detach($event, $callback, $priority);
+
+            return $value;
+        };
+
+        $me->_addHook($event->getName(), $callback, $priority);
+
+        return $this;
+    }
+
+    /**
      * Gets an event callback wrapper.
      *
      * @since [*next-version*]
