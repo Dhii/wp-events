@@ -37,6 +37,22 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     *
+     * @return AbstractWpEventManager This instance.
+     */
+    protected function _detach($event, $callback, $priority = self::DEFAULT_PRIORITY)
+    {
+        $eventObject = $this->_normalizeEvent($event);
+        $wrapper     = $this->_getHandlerWrapper($eventObject->getName(), $callback);
+        \remove_filter($eventObject->getName(), $wrapper, $priority);
+
+        return $this;
+    }
+
+    /**
      * Hashes an event name / event handler pair.
      *
      * @since [*next-version*]
@@ -73,6 +89,10 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
 
         if (\is_array($callable)) {
             return $this->_hashArray($callable);
+        }
+
+        if (is_string($callable) && is_callable($callable)) {
+            return $this->_hashScalar($callable);
         }
 
         throw new \InvalidArgumentException('Could not hash: not a valid callback');
