@@ -248,9 +248,9 @@ class EventManagerTest extends TestCase
             $me->fail('Stopping propagation did not work');
         };
 
-        $wrapper1 = $subject->this()->_createCallbackWrapper($name, $handler1);
-        $wrapper2 = $subject->this()->_createCallbackWrapper($name, $handler2);
-        $wrapper3 = $subject->this()->_createCallbackWrapper($name, $handler3);
+        $wrapper1 = $subject->this()->_createHandlerWrapper($name, $handler1);
+        $wrapper2 = $subject->this()->_createHandlerWrapper($name, $handler2);
+        $wrapper3 = $subject->this()->_createHandlerWrapper($name, $handler3);
         $this->assertInstanceOf('Closure', $wrapper1, 'Wrapper is not a valid closure');
 
         $result = \call_user_func_array($wrapper1, $params);
@@ -279,14 +279,14 @@ class EventManagerTest extends TestCase
             echo 'Just do something else';
         };
 
-        $wrapper1 = $subject->this()->_getCallbackWrapper($name, $handler1);
-        $wrapper2 = $subject->this()->_getCallbackWrapper($name, $handler1);
+        $wrapper1 = $subject->this()->_getHandlerWrapper($name, $handler1);
+        $wrapper2 = $subject->this()->_getHandlerWrapper($name, $handler1);
         $this->assertSame($wrapper1, $wrapper2, 'Different wrappers returned for same handler');
 
-        $wrapper3 = $subject->this()->_getCallbackWrapper($name, $handler2);
+        $wrapper3 = $subject->this()->_getHandlerWrapper($name, $handler2);
         $this->assertNotSame($wrapper2, $wrapper3, 'Same wrapper returned for different handlers');
 
-        $wrapper4 = $subject->this()->_getCallbackWrapper($otherName, $handler1);
+        $wrapper4 = $subject->this()->_getHandlerWrapper($otherName, $handler1);
         $this->assertNotSame($wrapper1, $wrapper4, 'Same wrapper returned for same handler but different event name');
     }
 }
