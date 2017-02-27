@@ -99,7 +99,7 @@ abstract class AbstractWpEventManager extends AbstractEventManager
     protected function _detach($event, $callback, $priority = self::DEFAULT_PRIORITY)
     {
         $eventObject = $this->_normalizeEvent($event);
-        \remove_filter($eventObject->getName(), $callback);
+        \remove_filter($eventObject->getName(), $callback, $priority);
 
         return $this;
     }
