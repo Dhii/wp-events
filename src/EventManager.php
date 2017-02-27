@@ -96,15 +96,4 @@ class EventManager extends AbstractWrapperCachingEventManager implements EventMa
     {
         return new Event($name, $params, $target, $propagation);
     }
-
-    /**
-     * Creates a new event instance.
-     *
-     * @see _createEvent()
-     * @since [*next-version*]
-     */
-    public function createEvent($name, $params = array(), $target = null, $propagation = true)
-    {
-        return $this->_createEvent($name, $params, $target, $propagation);
-    }
 }
