@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dhii\WpEvents;
 
 /**
@@ -42,7 +41,7 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event.
+     * @param string   $name    The name of the event.
      * @param callable $handler The handler of the event.
      *
      * @return string The hash of the pair.
@@ -50,7 +49,7 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
     protected function _hashEventHandler($name, $handler)
     {
         $handlerHash = $this->_hashCallable($handler);
-        $pair = $name.'|'.$handlerHash;
+        $pair        = $name . '|' . $handlerHash;
 
         return $this->_hashScalar($pair);
     }
@@ -61,8 +60,10 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
      * @since [*next-version*]
      *
      * @param callable $callable The callable to hash.
-     * @return string A hash of the callable.
+     *
      * @throws \InvalidArgumentException If not a valid callable.
+     *
+     * @return string A hash of the callable.
      */
     protected function _hashCallable($callable)
     {
@@ -85,6 +86,7 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
      * @since [*next-version*]
      *
      * @param array $array The array to hash.
+     *
      * @return string A hash of the array.
      */
     protected function _hashArray(array $array)
@@ -116,6 +118,7 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
      * @since [*next-version*]
      *
      * @param object $object The object to hash.
+     *
      * @return string A hash of the object.
      */
     protected function _hashObject($object)
@@ -129,6 +132,7 @@ abstract class AbstractWrapperCachingEventManager extends AbstractNormalizedEven
      * @since [*next-version*]
      *
      * @param string|int|float|bool $value The value to hash.
+     *
      * @return string A hash of the scalar value.
      */
     protected function _hashScalar($value)

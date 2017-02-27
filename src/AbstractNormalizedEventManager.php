@@ -16,11 +16,11 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      * Gets an event callback wrapper.
      *
      * @since [*next-version*]
-     *
      * @see _createCallbackWrapper()
      *
-     * @param string $name Name of the event.
+     * @param string   $name     Name of the event.
      * @param callable $callback Handler of the event.
+     *
      * @return \Closure The wrapper.
      */
     protected function _getHandlerWrapper($name, $callback)
@@ -52,15 +52,17 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event, for which a wrapper is created.
+     * @param string   $name     The name of the event, for which a wrapper is created.
      * @param callable $callback The callback to wrap.
+     *
      * @return \Closure The wrapper.
      */
     protected function _createHandlerWrapper($name, $callback)
     {
         $me = $this;
-        return function() use ($name, &$callback, &$me) {
-            $args = \func_get_args();
+
+        return function () use ($name, &$callback, &$me) {
+            $args  = \func_get_args();
             $event = \count($args) && $args[0] instanceof EventInterface
                     ? $args[0]
                     : $me->createEvent($name, $args);

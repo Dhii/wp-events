@@ -2,7 +2,6 @@
 
 namespace Dhii\WpEvents;
 
-use Psr\EventManager\EventInterface;
 use Psr\EventManager\EventManagerInterface;
 
 /**
@@ -102,7 +101,6 @@ class EventManager extends AbstractWrapperCachingEventManager implements EventMa
      * Creates a new event instance.
      *
      * @see _createEvent()
-     *
      * @since [*next-version*]
      */
     public function createEvent($name, $params = array(), $target = null, $propagation = true)

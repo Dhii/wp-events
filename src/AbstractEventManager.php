@@ -28,9 +28,9 @@ abstract class AbstractEventManager
      *
      * @since [*next-version*]
      *
-     * @param EventInterface|string $event Event instance or an event name string.
-     * @param object $target The target of the event.
-     * @param array $argv Arguments for the event.
+     * @param EventInterface|string $event  Event instance or an event name string.
+     * @param object                $target The target of the event.
+     * @param array                 $argv   Arguments for the event.
      *
      * @return EventInterface The event instance.
      */
@@ -50,7 +50,7 @@ abstract class AbstractEventManager
      *
      * @since [*next-version*]
      *
-     * @param array $base The array to merge into.
+     * @param array $base  The array to merge into.
      * @param array $other The array to merge from.
      *
      * @return array The result of merging the arrays.
@@ -68,11 +68,10 @@ abstract class AbstractEventManager
      * Creates a new exception related to events.
      *
      * @since [*next-version*]
-     *
      * @see \Exception::__construct()
      *
      * @param string $eventName The name of a related event, if any.
-     * See {@see ExceptionInterface::getEventName()}.
+     *                          See {@see ExceptionInterface::getEventName()}.
      *
      * @return ExceptionInterface The new exception.
      */
@@ -87,6 +86,7 @@ abstract class AbstractEventManager
      * @param array  $params      The event parameters.
      * @param mixed  $target      The target object. Used for context.
      * @param bool   $propagation True to propagate the event, false to not.
+     *
      * @return EventInterface The new event.
      */
     abstract protected function _createEvent($name, $params = array(), $target = null, $propagation = true);
@@ -96,9 +96,9 @@ abstract class AbstractEventManager
      *
      * @since [*next-version*]
      *
-     * @param string $name Name of the event.
+     * @param string   $name     Name of the event.
      * @param callable $callback The event handler.
-     * @param int $priority Priority of the event handler. Lower first.
+     * @param int      $priority Priority of the event handler. Lower first.
      */
     abstract protected function _attach($name, $callback, $priority = self::DEFAULT_PRIORITY);
 
@@ -107,12 +107,12 @@ abstract class AbstractEventManager
      *
      * @since [*next-version*]
      *
-     * @param string|EventInterface $event An event to trigger.
-     * Alternatively, the name of an event to create and trigger.
-     * @param mixed $target Target of the event, if any.
-     * A target is something that an event applies to.
-     * @param array $argv A list of additional arguments for the event.
-     * Arguments with same index as parameter names will overwrite corresponding parameters.
+     * @param string|EventInterface $event  An event to trigger.
+     *                                      Alternatively, the name of an event to create and trigger.
+     * @param mixed                 $target Target of the event, if any.
+     *                                      A target is something that an event applies to.
+     * @param array                 $argv   A list of additional arguments for the event.
+     *                                      Arguments with same index as parameter names will overwrite corresponding parameters.
      *
      * @return EventInterface The event, after it has been processed by all available handlers.
      */
@@ -123,7 +123,7 @@ abstract class AbstractEventManager
      *
      * @since [*next-version*]
      *
-     * @param string $event The event to detach from.
+     * @param string   $event    The event to detach from.
      * @param callable $callback The handler to detach.
      */
     abstract protected function _detach($event, $callback);

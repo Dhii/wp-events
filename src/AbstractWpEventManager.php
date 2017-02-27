@@ -13,13 +13,13 @@ abstract class AbstractWpEventManager extends AbstractEventManager
      * Adds a hook to WordPress.
      *
      * @since [*next-version*]
-     *
      * @see add_filter()
      *
-     * @param string $name
+     * @param string   $name
      * @param callable $handler
-     * @param int $priority
-     * @param int $numArgs
+     * @param int      $priority
+     * @param int      $numArgs
+     *
      * @return EventManager This instance.
      */
     protected function _addHook($name, $handler, $priority = self::DEFAULT_PRIORITY, $numArgs = 1)
@@ -35,7 +35,7 @@ abstract class AbstractWpEventManager extends AbstractEventManager
      * @since [*next-version*]
      *
      * @param string $name Name of the hook to run handlers for.
-     * @param array $args Arguments to pass to the handler.
+     * @param array  $args Arguments to pass to the handler.
      *
      * @return mixed The result returned by the last handler.
      */
@@ -54,12 +54,12 @@ abstract class AbstractWpEventManager extends AbstractEventManager
      */
     protected function _trigger($event, $target = null, $argv = array())
     {
-        $event = $this->_normalizeEvent($event, $target, $argv);
+        $event  = $this->_normalizeEvent($event, $target, $argv);
         $result = $this->_runHandlers($event->getName(), array($event));
 
         return $result;
     }
-    
+
     /**
      * {@inheritdoc}
      *
