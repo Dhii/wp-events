@@ -32,6 +32,21 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
     protected $eventCache;
 
     /**
+     * Gets the cached event instance for the given name, creating it if needed.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $name The name of the event.
+     * @param array  $args Optional array of event arguments.
+     *
+     * @return EventInterface The event instance.
+     */
+    public function _zGetCachedEvent($name, $args)
+    {
+        return $this->_getCachedEvent($name, $args);
+    }
+
+    /**
      * Creates an event instance in cache.
      *
      * @since [*next-version*]
@@ -182,7 +197,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
 
             $event = $isEvent
                 ? $args[0]
-                : $me->_getCachedEvent($name, $args);
+                : $me->_zGetCachedEvent($name, $args);
 
             /* @var $event \Psr\EventManager\EventInterface */
 
