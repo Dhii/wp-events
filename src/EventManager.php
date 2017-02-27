@@ -48,9 +48,9 @@ class EventManager extends AbstractWrapperCachingEventManager implements EventMa
      *
      * @since [*next-version*]
      */
-    public function detach($event, $callback)
+    public function detach($event, $callback, $priority = self::DEFAULT_PRIORITY)
     {
-        $this->_detach($event, $callback);
+        $this->_detach($event, $callback, $priority);
 
         return $this;
     }
