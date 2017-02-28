@@ -3,6 +3,9 @@
 namespace Dhii\WpEvents\FuncTest;
 
 use Dhii\WpEvents\AbstractNormalizedEventManager;
+use Mockery;
+use Psr\EventManager\EventInterface;
+use WP_Mock;
 use Xpmock\TestCase;
 
 /**
@@ -20,6 +23,26 @@ class AbstractNormalizedEventManagerTest extends TestCase
     const TEST_SUBJECT_CLASSNAME = 'Dhii\\WpEvents\\AbstractNormalizedEventManager';
 
     /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function setUp()
+    {
+        WP_Mock::setUp();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function tearDown()
+    {
+        WP_Mock::tearDown();
+    }
+
+    /**
      * Creates a new instance of the test subject.
      *
      * @since [*next-version*]
@@ -30,6 +53,9 @@ class AbstractNormalizedEventManagerTest extends TestCase
     {
         $me   = $this;
         $mock = $this->mock(static::TEST_SUBJECT_CLASSNAME)
+            ->detach(function($event, $callback, $priority) {
+                // do nothing
+            })
             ->_createException()
             ->_createEvent(function($name, $args = array(), $target = null, $propagation = true) use ($me) {
                 return $me->createEventMock($name, $args, $target, $propagation);
@@ -145,6 +171,54 @@ class AbstractNormalizedEventManagerTest extends TestCase
             array('test' => $this->createEventMock('mock')),
             $subject->this()->eventCache
         );
+    }
+
+    /**
+     * Tests the clear cache handler creation method.
+     *
+     * @since [*next-version*]
+     */
+    public function testClearCacheHandler()
+    {
+        $subject = Mockery::mock(static::TEST_SUBJECT_CLASSNAME)
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods()
+        ;
+
+        $name = uniqid('event');
+        $event = $this->createEventMock($name);
+        $priority = PHP_INT_MAX;
+        $callback = $this->reflect($subject)->_createClearCacheHandler($event);
+
+        $subject->shouldReceive('detach')
+            ->once()
+            ->withArgs(array(
+                $event,
+                Mockery::type('callable'),
+                $priority
+            ))
+        ;
+
+        $callback($event);
+    }
+
+    /**
+     * Tests the clear cache handler registration method.
+     *
+     * @since [*next-version*]
+     */
+    public function testRegisterClearCacheHandler()
+    {
+        $subject = $this->createInstance();
+
+        $name = uniqid('event');
+        $event = $this->createEventMock($name);
+
+        $callback = $subject->this()->_createClearCacheHandler($event);
+
+        WP_Mock::expectFilterAdded($name, $callback, PHP_INT_MAX, 1);
+
+        $subject->this()->_registerClearCacheHandler($event);
     }
 
     /**
