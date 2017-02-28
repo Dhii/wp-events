@@ -190,7 +190,7 @@ class AbstractNormalizedEventManagerTest extends TestCase
         $priority = PHP_INT_MAX;
         $callback = $this->reflect($subject)->_createClearCacheHandler($event);
 
-        $subject->shouldReceive('_zdetach')
+        $subject->shouldReceive('_zDetach')
             ->once()
             ->withArgs(array(
                 $event,
