@@ -172,6 +172,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
     protected function _createClearCacheHandler(EventInterface $event)
     {
         $me       = $this;
+        $priority = static::CACHE_CLEAR_HANDLER_PRIORITY;
 
         $callback = function($value) use ($me, $event, &$callback, $priority) {
             $me->_zRemoveCachedEvent($event->getName());
