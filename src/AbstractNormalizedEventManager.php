@@ -40,7 +40,12 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      *
      * @return bool True on success, false on failure
      */
-    abstract public function detach($event, $callback, $priority = self::DEFAULT_PRIORITY);
+    public function _zdetach($event, $callback, $priority = self::DEFAULT_PRIORITY)
+    {
+        $this->_detach($event, $callback, $priority);
+
+        return $this;
+    }
 
     /**
      * Gets the cached event instance for the given name, creating it if needed.
@@ -176,7 +181,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
 
         $callback = function($value) use ($me, $event, &$callback, $priority) {
             $me->_zRemoveCachedEvent($event->getName());
-            $me->detach($event, $callback, $priority);
+            $me->_zdetach($event, $callback, $priority);
 
             return $value;
         };
