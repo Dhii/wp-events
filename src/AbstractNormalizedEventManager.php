@@ -101,7 +101,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
             // Create event instance if it does not exist
             $event = $this->_createCachedEvent($name);
             // Register handler to delete the event instance at the end of the chain
-            $this->_registerCacheClearHandler($event);
+            $this->_registerClearCacheHandler($event);
         }
 
         $event = $this->eventCache[$name];
@@ -150,10 +150,10 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      *
      * @return $this This instance.
      */
-    protected function _registerCacheClearHandler(EventInterface $event)
+    protected function _registerClearCacheHandler(EventInterface $event)
     {
         $priority = static::CACHE_CLEAR_HANDLER_PRIORITY;
-        $callback = $this->_createCacheClearHandler($event);
+        $callback = $this->_createClearCacheHandler($event);
 
         $this->_addHook($event->getName(), $callback, $priority);
 
@@ -169,7 +169,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
      *
      * @return \callable The created handler.
      */
-    protected function _createCacheClearHandler(EventInterface $event)
+    protected function _createClearCacheHandler(EventInterface $event)
     {
         $me       = $this;
 
