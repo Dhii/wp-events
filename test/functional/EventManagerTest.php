@@ -98,6 +98,35 @@ class EventManagerTest extends TestCase
     }
 
     /**
+     * Tests whether the `detach()` method correctly detaches the handler from the event.
+     *
+     * @since [*next-version*]
+     */
+    public function testDetach()
+    {
+        $subject = Mockery::mock(static::TEST_SUBJECT_CLASS_NAME)
+                ->makePartial()
+                ->shouldAllowMockingProtectedMethods();
+
+        $name = uniqid('event');
+        $priority = (int) rand(1, 100);
+        $output = uniqid('Hello Test!');
+        $callback = function() use ($output) {
+            echo $output;
+        };
+
+        $subject->shouldReceive('_detach')
+            ->once()
+            ->withArgs(array(
+                $name,
+                Mockery::type('callable'),
+                $priority,
+            ));
+
+        $subject->detach($name, $callback, $priority);
+    }
+
+    /**
      * Tests that the `_addHook()` method runs as expected.
      *
      * It must add a specific filter, depending on how it is called.
