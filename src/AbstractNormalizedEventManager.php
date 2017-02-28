@@ -157,7 +157,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
 
         $this->_addHook($event->getName(), $callback, $priority);
 
-        return $this;
+        return $callback;
     }
 
     /**
