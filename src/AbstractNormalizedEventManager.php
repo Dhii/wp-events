@@ -219,7 +219,7 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
         return function () use ($name, &$callback, &$me) {
             /* @var $me AbstractNormalizedEventManager */
 
-            $args  = \func_get_args();
+            $args    = \func_get_args();
             $isEvent = \count($args) && $args[0] instanceof EventInterface;
 
             $event = $isEvent
