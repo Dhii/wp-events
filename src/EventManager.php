@@ -74,7 +74,7 @@ class EventManager implements EventManagerInterface
      */
     protected function normalizeEvent($event)
     {
-        return ($event instanceof EventInterfacevent)
+        return ($event instanceof EventInterface)
             ? $event
             : new Event($event);
     }
