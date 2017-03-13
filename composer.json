@@ -18,7 +18,8 @@
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "4.*",
         "10up/wp_mock": "dev-dev",
-        "ptrofimov/xpmock": "^1.1"
+        "ptrofimov/xpmock": "^1.1",
+        "mockery/mockery": "^0.9.5"
     },
     "autoload": {
         "psr-4": {

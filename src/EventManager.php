@@ -2,106 +2,98 @@
 
 namespace Dhii\WpEvents;
 
-use Psr\EventManager\EventInterface;
 use Psr\EventManager\EventManagerInterface;
 
 /**
  * Event Manager implementation for WordPress.
  *
- * This class complies with the PSR-14 Event Manager standard (as of date 15/10/2016).
+ * This class aims to comply with the PSR-14 Event Manager standard (as of date 15/10/2016).
  *
  * It wraps around the WordPress hook mechanism by utilizing filters as generic events, since in WordPress actions
- * are actually also filters. For this reason, an event will always be capable of yeilding a result.
+ * are actually also filters. Hook handlers are standardized to receive only
+ * one parameter - the event instance, avoiding the need to specify number of
+ * handler args, and allowing more than one piece of data to be changed by
+ * one event's handlers.
  *
- * @author Miguel Muscat <miguelmuscat93@gmail.com>
+ * @since [*next-version*]
  */
-class EventManager implements EventManagerInterface
+class EventManager extends AbstractWrapperCachingEventManager implements EventManagerInterface
 {
     /**
      * Constructs a new instance.
+     *
+     * @since [*next-version*]
      */
     public function __construct()
     {
+        $this->_construct();
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     *
+     * @return EventManager This instance.
      */
-    public function attach($event, $callback, $priority = 10)
+    public function attach($name, $callback, $priority = self::DEFAULT_PRIORITY)
     {
-        $eventObject   = $this->normalizeEvent($event);
-        $numArgsToPass = $this->getCallableNumParams($callback);
-        \add_filter($eventObject->getName(), $callback, $priority, $numArgsToPass + 1);
+        $this->_attach($name, $callback, $priority);
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
      */
-    public function detach($event, $callback)
+    public function detach($event, $callback, $priority = self::DEFAULT_PRIORITY)
     {
-        $eventObject = $this->normalizeEvent($event);
-        \remove_filter($eventObject->getName(), $callback);
+        $this->_detach($event, $callback, $priority);
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
      */
     public function clearListeners($event)
     {
-        $eventObject = $this->normalizeEvent($event);
-        \remove_all_filters($eventObject->getName());
+        $this->_clearListeners($event);
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @since [*next-version*]
      */
     public function trigger($event, $target = null, $argv = array())
     {
-        $args = empty($argv)
-            ? array(null)
-            : $argv;
-        array_push($args, $target);
-        $eventObject = $this->normalizeEvent($event);
-        \apply_filters_ref_array($eventObject->getName(), $args);
+        return $this->_trigger($event, $target, $argv);
     }
 
     /**
-     * Normalizes the given event into an Event instance.
+     * {@inheritdoc}
      *
-     * @param EventInterface|string $event Event instance or an event name string.
-     *
-     * @return EventInterface The event instance.
+     * @since [*next-version*]
      */
-    protected function normalizeEvent($event)
+    protected function _createException($message = '', $code = 0, \Exception $previous = null, $eventName = null)
     {
-        return ($event instanceof EventInterfacevent)
-            ? $event
-            : new Event($event);
+        return new Exception\Exception($message, $code, $previous, $eventName);
     }
 
     /**
-     * Gets the number of parameters for a callable.
+     * {@inheritdoc}
      *
-     * @param callable $callable The callable.
-     *
-     * @return int The number of parameters.
+     * @since [*next-version*]
      */
-    protected function getCallableNumParams($callable)
+    protected function _createEvent($name, $params = array(), $target = null, $propagation = true)
     {
-        return $this->getCallableReflection($callable)->getNumberOfParameters();
-    }
-
-    /**
-     * Gets the reflection instance for a callable.
-     *
-     * @param callable $callable The callable.
-     *
-     * @return ReflectionFunction|ReflectionMethod The reflection instance.
-     */
-    protected function getCallableReflection($callable)
-    {
-        return is_array($callable) ?
-            new \ReflectionMethod($callable[0], $callable[1]) :
-            new \ReflectionFunction($callable);
+        return new Event($name, $params, $target, $propagation);
     }
 }
