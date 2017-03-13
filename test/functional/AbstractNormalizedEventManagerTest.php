@@ -178,7 +178,7 @@ class AbstractNormalizedEventManagerTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testClearCacheHandler()
+    public function testRemoveCachedEventHandler()
     {
         $subject = Mockery::mock(static::TEST_SUBJECT_CLASSNAME)
             ->makePartial()
@@ -186,20 +186,15 @@ class AbstractNormalizedEventManagerTest extends TestCase
         ;
 
         $name = uniqid('event');
-        $event = $this->createEventMock($name);
-        $priority = PHP_INT_MAX;
-        $callback = $this->reflect($subject)->_createClearCacheHandler($event);
 
-        $subject->shouldReceive('_zDetach')
+        $subject->shouldReceive('_removeCachedEvent')
             ->once()
             ->withArgs(array(
-                $event,
-                Mockery::type('callable'),
-                $priority
+                $name
             ))
         ;
 
-        $callback($event);
+        $this->reflect($subject)->_zRemoveCachedEventHandler($name);
     }
 
     /**
@@ -207,18 +202,20 @@ class AbstractNormalizedEventManagerTest extends TestCase
      *
      * @since [*next-version*]
      */
-    public function testRegisterClearCacheHandler()
+    public function testRegisterEventCacheClearHandler()
     {
         $subject = $this->createInstance();
 
         $name = uniqid('event');
         $event = $this->createEventMock($name);
 
-        $callback = $subject->this()->_createClearCacheHandler($event);
+        $hook     = AbstractNormalizedEventManager::CACHE_CLEAR_HANDLER_EVENT;
+        $callback = array($subject, '_zRemoveCachedEventHandler');
+        $priority = AbstractNormalizedEventManager::CACHE_CLEAR_HANDLER_PRIORITY;
 
-        WP_Mock::expectFilterAdded($name, $callback, PHP_INT_MAX, 1);
+        WP_Mock::expectFilterAdded($hook, $callback, $priority, 1);
 
-        $subject->this()->_registerClearCacheHandler($event);
+        $subject->this()->_registerEventCacheClearHandler($event);
     }
 
     /**
