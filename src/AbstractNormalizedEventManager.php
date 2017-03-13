@@ -13,11 +13,18 @@ use Psr\EventManager\EventInterface;
 abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
 {
     /**
+     * The hook on to which the cache clear handler is hooked.
+     *
+     * @since [*next-version*]
+     */
+    const CACHE_CLEAR_HANDLER_EVENT = 'all';
+
+    /**
      * The priority of the cache clear handler.
      *
      * @since [*next-version*]
      */
-    const CACHE_CLEAR_HANDLER_PRIORITY = PHP_INT_MAX;
+    const CACHE_CLEAR_HANDLER_PRIORITY = 0;
 
     /**
      * A cache of event instances.
@@ -32,17 +39,33 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
     protected $eventCache;
 
     /**
-     * Detaches a listener from an event.
+     * Registers the event cache clear handler.
      *
-     * @param string $event the event to attach too
-     * @param callable $callback a callable function
-     * @param int $priority The priority that was used to initially register the listener.
+     * @since [*next-version*]
      *
-     * @return bool True on success, false on failure
+     * @return $this
      */
-    public function _zDetach($event, $callback, $priority = self::DEFAULT_PRIORITY)
+    protected function _registerEventCacheClearHandler()
     {
-        $this->_detach($event, $callback, $priority);
+        $this->_addHook(
+            static::CACHE_CLEAR_HANDLER_EVENT,
+            array($this, '_zRemoveCachedEventHandler'),
+            static::CACHE_CLEAR_HANDLER_PRIORITY
+        );
+
+        return $this;
+    }
+
+    /**
+     * Clears the cached event for a specific event name.
+     *
+     * @param string $name The name of the hook.
+     *
+     * @return $this
+     */
+    public function _zRemoveCachedEventHandler($name)
+    {
+        $this->_removeCachedEvent($name);
 
         return $this;
     }
