@@ -105,8 +105,6 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
         if (!$this->_hasCachedEvent($name)) {
             // Create event instance if it does not exist
             $event = $this->_createCachedEvent($name);
-            // Register handler to delete the event instance at the end of the chain
-            $this->_registerClearCacheHandler($event);
         }
 
         $event = $this->eventCache[$name];
@@ -144,49 +142,6 @@ abstract class AbstractNormalizedEventManager extends AbstractWpEventManager
         $this->_removeCachedEvent($name);
 
         return $this;
-    }
-
-    /**
-     * Registers a clear cache handler.
-     *
-     * @since [*next-version*]
-     *
-     * @param EventInterface $event The event instance to clear from cache.
-     *
-     * @return $this This instance.
-     */
-    protected function _registerClearCacheHandler(EventInterface $event)
-    {
-        $priority = static::CACHE_CLEAR_HANDLER_PRIORITY;
-        $callback = $this->_createClearCacheHandler($event);
-
-        $this->_addHook($event->getName(), $callback, $priority);
-
-        return $callback;
-    }
-
-    /**
-     * Creates a cache clear handler.
-     *
-     * @since [*next-version*]
-     *
-     * @param EventInterface $event The event instance to be cleared from cache by the handler.
-     *
-     * @return \callable The created handler.
-     */
-    protected function _createClearCacheHandler(EventInterface $event)
-    {
-        $me       = $this;
-        $priority = static::CACHE_CLEAR_HANDLER_PRIORITY;
-
-        $callback = function($value) use ($me, $event, &$callback, $priority) {
-            $me->_zRemoveCachedEvent($event->getName());
-            $me->_zDetach($event, $callback, $priority);
-
-            return $value;
-        };
-
-        return $callback;
     }
 
     /**
