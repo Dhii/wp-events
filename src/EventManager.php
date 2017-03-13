@@ -27,6 +27,7 @@ class EventManager extends AbstractWrapperCachingEventManager implements EventMa
     public function __construct()
     {
         $this->_construct();
+        $this->_registerEventCacheClearHandler();
     }
 
     /**
