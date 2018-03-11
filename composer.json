@@ -29,10 +29,15 @@
             "Dhii\\EventManager\\" : "src/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Dhii/psr-14"
+    "autoload-dev": {
+        "psr-4": {
+            "Dhii\\EventManager\\UnitTest\\" : "test/unit",
+            "Dhii\\EventManager\\FuncTest\\" : "test/functional"
         }
-    ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
+    }
 }
