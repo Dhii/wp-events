@@ -227,7 +227,7 @@ class NormalizeEventCapableTraitTest extends TestCase
         $eventObj = $this->createEvent($eventNameNormalized, $target, $params, true);
         $subject->expects($this->once())
                 ->method('_createEvent')
-                ->with($eventNameNormalized, $target, $params, true)
+                ->with($eventNameNormalized, $params, $target, true)
                 ->willReturn($eventObj);
 
         /* @var $actual EventInterface */
@@ -264,7 +264,7 @@ class NormalizeEventCapableTraitTest extends TestCase
         $eventObj = $this->createEvent($eventNameNormalized, $target, $params, true);
         $subject->expects($this->once())
                 ->method('_createEvent')
-                ->with($eventNameNormalized, $target, $params, true)
+                ->with($eventNameNormalized, $params, $target, true)
                 ->willReturn($eventObj);
 
         /* @var $actual EventInterface */

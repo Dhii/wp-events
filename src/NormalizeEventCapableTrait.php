@@ -29,7 +29,7 @@ trait NormalizeEventCapableTrait
     protected function _normalizeEvent($event, $target = null, $params = [])
     {
         if (is_string($event) || $event instanceof Stringable) {
-            return $this->_createEvent($this->_normalizeString($event), $target, $params);
+            return $this->_createEvent($this->_normalizeString($event), $params, $target);
         }
 
         if (!($event instanceof EventInterface)) {
@@ -58,13 +58,13 @@ trait NormalizeEventCapableTrait
      * @since [*next-version*]
      *
      * @param string $name        The event name.
-     * @param mixed  $target      The target object. Used for context.
      * @param array  $params      The event parameters.
+     * @param mixed  $target      The target object. Used for context.
      * @param bool   $propagation True to propagate the event, false to not.
      *
      * @return EventInterface The new event.
      */
-    abstract protected function _createEvent($name, $target = null, $params = [], $propagation = true);
+    abstract protected function _createEvent($name, $params = [], $target = null, $propagation = true);
 
     /**
      * Normalizes a value to its string representation.
