@@ -1,6 +1,6 @@
 <?php
 
-namespace Dhii\WpEvents;
+namespace Dhii\EventManager;
 
 use Psr\EventManager\EventInterface;
 
