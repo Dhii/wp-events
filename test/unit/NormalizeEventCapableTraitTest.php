@@ -231,7 +231,7 @@ class NormalizeEventCapableTraitTest extends TestCase
                 ->willReturn($eventObj);
 
         /* @var $actual EventInterface */
-        $actual = $reflect->_normalizeEvent($eventName, $target, $params);
+        $actual = $reflect->_normalizeEvent($eventName, $params, $target);
 
         $this->assertSame($eventObj, $actual, 'Returned event object is not the internally created instance.');
     }
@@ -268,7 +268,7 @@ class NormalizeEventCapableTraitTest extends TestCase
                 ->willReturn($eventObj);
 
         /* @var $actual EventInterface */
-        $actual = $reflect->_normalizeEvent($eventName, $target, $params);
+        $actual = $reflect->_normalizeEvent($eventName, $params, $target);
 
         $this->assertSame($eventObj, $actual, 'Returned event object is not the internally created instance.');
     }
@@ -293,7 +293,7 @@ class NormalizeEventCapableTraitTest extends TestCase
         $event = $this->createEvent($eventName, $eventTarget, $eventParams);
 
         /* @var $actual EventInterface */
-        $actual = $reflect->_normalizeEvent($event, null, []);
+        $actual = $reflect->_normalizeEvent($event);
 
         $this->assertSame($event, $actual, 'Returned event object is not the internally created instance.');
     }
@@ -323,7 +323,7 @@ class NormalizeEventCapableTraitTest extends TestCase
               ->with($newTarget);
 
         /* @var $actual EventInterface */
-        $actual = $reflect->_normalizeEvent($event, $newTarget, []);
+        $actual = $reflect->_normalizeEvent($event, [], $newTarget);
 
         $this->assertSame($event, $actual, 'Returned event object is not the internally created instance.');
     }
@@ -362,7 +362,7 @@ class NormalizeEventCapableTraitTest extends TestCase
               ->with($combinedParams);
 
         /* @var $actual EventInterface */
-        $actual = $reflect->_normalizeEvent($event, null, $newParams);
+        $actual = $reflect->_normalizeEvent($event, $newParams);
 
         $this->assertSame($event, $actual, 'Returned event object is not the internally created instance.');
     }

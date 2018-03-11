@@ -20,13 +20,13 @@ trait NormalizeEventCapableTrait
      * @since [*next-version*]
      *
      * @param EventInterface|string|Stringable $event  Event instance or an event name string.
-     * @param object                           $target The target of the event.
      * @param array                            $params The event parameters; will be added to existing parameters if
      *                                                 the $event argument is an {@see EventInterface} instance.
+     * @param object                           $target The target of the event.
      *
      * @return EventInterface The event instance.
      */
-    protected function _normalizeEvent($event, $target = null, $params = [])
+    protected function _normalizeEvent($event, $params = [], $target = null)
     {
         if (is_string($event) || $event instanceof Stringable) {
             return $this->_createEvent($this->_normalizeString($event), $params, $target);
