@@ -18,10 +18,11 @@
         "dhii/i18n-helper-base": "^0.1"
     },
     "require-dev": {
+        "php": "^5.6 | ^7.0",
+        "mockery/mockery": "^1.0",
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
-        "mockery/mockery": "^0.9.5",
         "dhii/stringable-interface": "^0.1"
     },
     "autoload": {
