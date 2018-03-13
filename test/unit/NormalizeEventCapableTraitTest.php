@@ -366,4 +366,22 @@ class NormalizeEventCapableTraitTest extends TestCase
 
         $this->assertSame($event, $actual, 'Returned event object is not the internally created instance.');
     }
+
+    /**
+     * Tests the event normalization method with an invalid argument to assert whether an invalid-argument-exception
+     * is thrown.
+     *
+     * @since [*next-version*]
+     */
+    public function testNormalizeEventWithInvalidEvent()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $event = new stdClass();
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $reflect->_normalizeEvent($event);
+    }
 }
