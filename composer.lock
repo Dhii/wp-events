@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbe65a0268b36e7e64764c7c430f607d",
+    "content-hash": "e3728b683fbd111f7ff5ce7a827d0e9b",
     "packages": [
         {
             "name": "dhii/exception",
-            "version": "v0.1-alpha1",
+            "version": "v0.1-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/exception.git",
-                "reference": "d228ddf648d2be0691aab9f956db7a4c1168ea28"
+                "reference": "51ff34ea474725a758ac43c97788c3ed95eb7be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/exception/zipball/d228ddf648d2be0691aab9f956db7a4c1168ea28",
-                "reference": "d228ddf648d2be0691aab9f956db7a4c1168ea28",
+                "url": "https://api.github.com/repos/Dhii/exception/zipball/51ff34ea474725a758ac43c97788c3ed95eb7be9",
+                "reference": "51ff34ea474725a758ac43c97788c3ed95eb7be9",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,7 @@
             "require-dev": {
                 "codeclimate/php-test-reporter": "<=0.3.2",
                 "dhii/php-cs-fixer-config": "^0.1",
+                "dhii/stringable-interface": "^0.1",
                 "phpunit/phpunit": "^4.8",
                 "ptrofimov/xpmock": "^1.1"
             },
@@ -54,7 +55,7 @@
                 }
             ],
             "description": "Standards-compliant exception classes",
-            "time": "2018-03-07T09:45:52+00:00"
+            "time": "2018-03-13T09:32:23+00:00"
         },
         {
             "name": "dhii/exception-helper-base",
@@ -391,6 +392,89 @@
     ],
     "packages-dev": [
         {
+            "name": "10up/wp_mock",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/10up/wp_mock.git",
+                "reference": "507e59027e9b0d86eba9b74420962a72c4c2ec9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/10up/wp_mock/zipball/507e59027e9b0d86eba9b74420962a72c4c2ec9e",
+                "reference": "507e59027e9b0d86eba9b74420962a72c4c2ec9e",
+                "shasum": ""
+            },
+            "require": {
+                "antecedent/patchwork": "~2.0.3",
+                "mockery/mockery": "^0.9.5",
+                "php": ">=5.6",
+                "phpunit/phpunit": ">=4.3"
+            },
+            "conflict": {
+                "phpunit/phpunit": ">=6.0"
+            },
+            "require-dev": {
+                "behat/behat": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WP_Mock\\": "./php/WP_Mock"
+                },
+                "classmap": [
+                    "php/WP_Mock.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "A mocking library to take the pain out of unit testing for WordPress",
+            "time": "2017-07-19T03:10:11+00:00"
+        },
+        {
+            "name": "antecedent/patchwork",
+            "version": "2.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antecedent/patchwork.git",
+                "reference": "cab3be4865e47f1dc447715e76c7b616e48b005d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antecedent/patchwork/zipball/cab3be4865e47f1dc447715e76c7b616e48b005d",
+                "reference": "cab3be4865e47f1dc447715e76c7b616e48b005d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignas Rudaitis",
+                    "email": "ignas.rudaitis@gmail.com"
+                }
+            ],
+            "description": "Method redefinition (monkey-patching) functionality for PHP.",
+            "homepage": "http://patchwork2.org/",
+            "keywords": [
+                "aop",
+                "aspect",
+                "interception",
+                "monkeypatching",
+                "redefinition",
+                "runkit",
+                "testing"
+            ],
+            "time": "2017-08-01T11:52:57+00:00"
+        },
+        {
             "name": "dhii/php-cs-fixer-config",
             "version": "dev-php-5.3",
             "source": {
@@ -544,16 +628,16 @@
         },
         {
             "name": "hamcrest/hamcrest-php",
-            "version": "dev-master",
+            "version": "1.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hamcrest/hamcrest-php.git",
-                "reference": "f3e4601eba2586af780265ee81c97741e6da46ca"
+                "reference": "26968e9810ff0d1aa48f6d67a862559d92a51884"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/f3e4601eba2586af780265ee81c97741e6da46ca",
-                "reference": "f3e4601eba2586af780265ee81c97741e6da46ca",
+                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/26968e9810ff0d1aa48f6d67a862559d92a51884",
+                "reference": "26968e9810ff0d1aa48f6d67a862559d92a51884",
                 "shasum": ""
             },
             "require": {
@@ -565,19 +649,22 @@
                 "kodova/hamcrest-php": "*"
             },
             "require-dev": {
-                "phpunit/php-file-iterator": "^1.4",
-                "phpunit/phpunit": ">=4.8.35 <5|>=5.4.3 <6",
+                "phpunit/php-file-iterator": "1.3.3",
+                "phpunit/phpunit": "~4.0",
                 "satooshi/php-coveralls": "^1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
                 "classmap": [
                     "hamcrest"
+                ],
+                "files": [
+                    "hamcrest/Hamcrest.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -588,35 +675,34 @@
             "keywords": [
                 "test"
             ],
-            "time": "2018-02-24T08:30:36+00:00"
+            "time": "2018-02-19T09:04:07+00:00"
         },
         {
             "name": "mockery/mockery",
-            "version": "dev-master",
+            "version": "0.9.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "e4c958124bc28709f20d8a3fdafdeb83b482c86c"
+                "reference": "e206aa48a851b95a91eeb61bfcce536d51b7cd96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/e4c958124bc28709f20d8a3fdafdeb83b482c86c",
-                "reference": "e4c958124bc28709f20d8a3fdafdeb83b482c86c",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/e206aa48a851b95a91eeb61bfcce536d51b7cd96",
+                "reference": "e206aa48a851b95a91eeb61bfcce536d51b7cd96",
                 "shasum": ""
             },
             "require": {
-                "hamcrest/hamcrest-php": "~2.0",
+                "hamcrest/hamcrest-php": "~1.1",
                 "lib-pcre": ">=7.0",
-                "php": ">=5.6.0"
+                "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpdocumentor/phpdocumentor": "^2.9",
-                "phpunit/phpunit": "~5.7.10|~6.5"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "0.9.x-dev"
                 }
             },
             "autoload": {
@@ -640,8 +726,8 @@
                     "homepage": "http://davedevelopment.co.uk"
                 }
             ],
-            "description": "Mockery is a simple yet flexible PHP mock object framework",
-            "homepage": "https://github.com/mockery/mockery",
+            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succinct API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
+            "homepage": "http://github.com/padraic/mockery",
             "keywords": [
                 "BDD",
                 "TDD",
@@ -654,7 +740,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2018-03-07T06:00:02+00:00"
+            "time": "2018-02-02T16:28:49+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

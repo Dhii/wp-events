@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "php": "^5.6 | ^7.0",
-        "mockery/mockery": "^1.0",
+        "10up/wp_mock": "^0.2",
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
