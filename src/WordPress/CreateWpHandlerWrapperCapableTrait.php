@@ -34,27 +34,25 @@ trait CreateWpHandlerWrapperCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param string   $name                      The name of the event, for which a wrapper is created.
-     * @param callable $callback                  The callback to wrap.
-     * @param bool     $throwPropagationException If true, a {@see StoppedPropagationExceptionInterface} exception
-     *                                            is thrown when propagation is stopped.
+     * @param string   $name            The name of the event, for which a wrapper is created.
+     * @param callable $callback        The callback to wrap.
+     * @param bool     $throwOnPropStop If true, a {@see StoppedPropagationExceptionInterface} exception
+     *                                  is thrown when propagation is stopped.
      *
      * @return Closure The wrapper.
-     *
-     * @throws ReflectionException
      */
-    protected function _createWpHandlerWrapper($name, $callback, $throwPropagationException = false)
+    protected function _createWpHandlerWrapper($name, $callback, $throwOnPropStop = false)
     {
-        $getCachedEventMethod = new ReflectionMethod($this, '_getCachedEvent');
-        $eventCache = $getCachedEventMethod->getClosure($this);
+        $eventCache = $this;
 
         /*
          * $name - The name of the event
          * $callback - The actual handler callback
          * $eventCache - The callback for retrieving events from cache
-         * $throwPropagationException - If true, an exception is thrown when propagation is stopped.
+         * $throwOnPropStop - If true, an exception is thrown when propagation is stopped.
          */
-        return function() use ($name, &$callback, $eventCache, $throwPropagationException) {
+
+        return function() use ($name, &$callback, $eventCache, $throwOnPropStop) {
             $fnArgs = func_get_args();
             // Detect whether the first argument given to the handler is an EventInterface
             $firstArg = count($fnArgs) === 1
@@ -66,14 +64,14 @@ trait CreateWpHandlerWrapperCapableTrait
             /* @var $event \Psr\EventManager\EventInterface */
             $event = $isEvent
                 ? $firstArg
-                : $eventCache($name, $fnArgs);
+                : $eventCache->_getCachedEvent($name, $fnArgs);
 
             // Call original handler if propagation is not stopped
             if (!$event->isPropagationStopped()) {
                 \call_user_func_array($callback, [$event]);
             }
 
-            if ($event->isPropagationStopped() && $throwPropagationException) {
+            if ($event->isPropagationStopped() && $throwOnPropStop) {
                 throw $this->_createStoppedPropagationException(
                     $this->__('Propagation has been stopped.'),
                     0,
