@@ -14,12 +14,11 @@
         "php": "^5.4 | ^7.0",
         "dhii/psr-14": "^0.1",
         "dhii/normalization-helper-base": "^0.1-alpha2",
-        "dhii/exception-helper-base": "^0.1",
+        "dhii/exception": "0.1-alpha4",
         "dhii/i18n-helper-base": "^0.1"
     },
     "require-dev": {
-        "php": "^5.6 | ^7.0",
-        "10up/wp_mock": "^0.2",
+        "10up/wp_mock": "^0.1.1",
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
