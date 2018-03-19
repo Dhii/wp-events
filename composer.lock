@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e83be91e5748031e7dc12b959e043aa8",
+    "content-hash": "9179820c729547a9b3be85550b860f02",
     "packages": [
         {
             "name": "dhii/exception",
@@ -446,7 +446,7 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "1.0.x-dev",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
@@ -2092,7 +2092,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "doctrine/instantiator": 20,
         "dhii/php-cs-fixer-config": 20
     },
     "prefer-stable": true,
