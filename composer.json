@@ -19,6 +19,7 @@
     },
     "require-dev": {
         "10up/wp_mock": "^0.1.1",
+        "doctrine/instantiator": "1.0.x-dev",
         "dhii/php-cs-fixer-config": "dev-php-5.3",
         "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",

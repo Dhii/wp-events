@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc5a9e605bfa4584ce9702c9f5776621",
+    "content-hash": "f599cae90893941f5f4859ac8357d7fd",
     "packages": [
         {
             "name": "dhii/exception",
@@ -2114,6 +2114,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "doctrine/instantiator": 20,
         "dhii/php-cs-fixer-config": 20
     },
     "prefer-stable": false,
