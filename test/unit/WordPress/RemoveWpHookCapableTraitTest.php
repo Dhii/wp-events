@@ -7,6 +7,7 @@ use Exception as RootException;
 use InvalidArgumentException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use WP_Mock;
+use WP_Mock\Functions;
 use Xpmock\TestCase;
 
 /**
@@ -179,9 +180,13 @@ class RemoveWpHookCapableTraitTest extends TestCase
                 ->with($priority)
                 ->willReturn($nPriority);
 
-        WP_Mock::userFunction('remove_filter')
-               ->with($nName, $handler, $nPriority)
-               ->once();
+        WP_Mock::wpFunction(
+            'remove_filter',
+            [
+                'args'  => [$nName, Functions::type('callable'), $nPriority],
+                'times' => 1,
+            ]
+        );
 
         $reflect->_removeWpHook($name, $handler, $priority);
     }
@@ -265,9 +270,13 @@ class RemoveWpHookCapableTraitTest extends TestCase
                 ->method('_getWpHookDefaultPriority')
                 ->willReturn($defPriority);
 
-        WP_Mock::userFunction('remove_filter')
-                      ->with($nName, $handler, $defPriority)
-                      ->once();
+        WP_Mock::wpFunction(
+            'remove_filter',
+            [
+                'args'  => [$nName, Functions::type('callable'), $defPriority],
+                'times' => 1,
+            ]
+        );
 
         $reflect->_removeWpHook($name, $handler, null);
     }

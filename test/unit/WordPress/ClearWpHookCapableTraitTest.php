@@ -170,9 +170,13 @@ class ClearWpHookCapableTraitTest extends TestCase
                 ->with($name)
                 ->willReturn($nName);
 
-        WP_Mock::userFunction('remove_all_filters')
-               ->with($nName)
-               ->once();
+        WP_Mock::wpFunction(
+            'remove_all_filters',
+            [
+                'args'  => $nName,
+                'times' => 1,
+            ]
+        );
 
         $reflect->_clearWpHooks($name);
     }
