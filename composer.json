@@ -9,6 +9,7 @@
             "email": "development@dhii.co"
         }
     ],
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
         "php": "^5.4 | ^7.0",
