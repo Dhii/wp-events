@@ -285,4 +285,208 @@ class WpHookReplacerTest extends TestCase
             'Return value is not the return value of the WP_Hook `apply_filters` call.'
         );
     }
+
+    /**
+     * Tests the `current()` method to assert whether the call is correctly redirect to the original WP_Hook instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testCurrent()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $return = uniqid('return-');
+
+        $wpHook->shouldReceive('current')
+               ->andReturn($return)
+               ->once();
+
+        $actual = $subject->current();
+
+        $this->assertSame(
+            $return,
+            $actual,
+            'Retrieved value is not the return value of the WP_Hook\'s `current` method.'
+        );
+    }
+
+    /**
+     * Tests the `key()` method to assert whether the call is correctly redirect to the original WP_Hook instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testKey()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $return = uniqid('return-');
+
+        $wpHook->shouldReceive('key')
+               ->andReturn($return)
+               ->once();
+
+        $actual = $subject->key();
+
+        $this->assertSame(
+            $return,
+            $actual,
+            'Retrieved value is not the return value of the WP_Hook\'s `key` method.'
+        );
+    }
+
+    /**
+     * Tests the `next()` method to assert whether the call is correctly redirect to the original WP_Hook instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testNext()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $wpHook->shouldReceive('next')
+               ->once();
+
+        $subject->next();
+    }
+
+    /**
+     * Tests the `valid()` method to assert whether the call is correctly redirect to the original WP_Hook instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testValid()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $return = (bool) rand(0, 1);
+
+        $wpHook->shouldReceive('valid')
+               ->andReturn($return)
+               ->once();
+
+        $actual = $subject->valid();
+
+        $this->assertSame(
+            $return,
+            $actual,
+            'Retrieved value is not the return value of the WP_Hook\'s `valid` method.'
+        );
+    }
+
+    /**
+     * Tests the `rewind()` method to assert whether the call is correctly redirect to the original WP_Hook instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testRewind()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $wpHook->shouldReceive('rewind')
+               ->once();
+
+        $subject->rewind();
+    }
+
+    /**
+     * Tests the `offsetExists()` method to assert whether the call is correctly redirect to the original WP_Hook
+     * instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testOffsetExists()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $offset = uniqid('offset-');
+        $return = (bool) rand(0, 1);
+
+        $wpHook->shouldReceive('offsetExists')
+               ->with($offset)
+               ->andReturn($return)
+               ->once();
+
+        $actual = isset($subject[$offset]);
+
+        $this->assertSame(
+            $return,
+            $actual,
+            'Retrieved value is not the return value of the WP_Hook\'s `offsetExists` method.'
+        );
+    }
+
+    /**
+     * Tests the `offsetGet()` method to assert whether the call is correctly redirect to the original WP_Hook
+     * instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testOffsetGet()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $offset = uniqid('offset-');
+        $return = uniqid('value-');
+
+        $wpHook->shouldReceive('offsetGet')
+               ->with($offset)
+               ->andReturn($return)
+               ->once();
+
+        $actual = $subject[$offset];
+
+        $this->assertSame(
+            $return,
+            $actual,
+            'Retrieved value is not the return value of the WP_Hook\'s `offsetGet` method.'
+        );
+    }
+
+    /**
+     * Tests the `offsetSet()` method to assert whether the call is correctly redirect to the original WP_Hook
+     * instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testOffsetSet()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $offset = uniqid('offset-');
+        $value = uniqid('value-');
+
+        $wpHook->shouldReceive('offsetSet')
+               ->with($offset, $value)
+               ->once();
+
+        $subject[$offset] = $value;
+    }
+
+    /**
+     * Tests the `offsetUnset()` method to assert whether the call is correctly redirect to the original WP_Hook
+     * instance.
+     *
+     * @since [*next-version*]
+     */
+    public function testOffsetUnset()
+    {
+        $wpHook = $this->createWpHook();
+        $subject = new TestSubject($wpHook);
+
+        $offset = uniqid('offset-');
+
+        $wpHook->shouldReceive('offsetUnset')
+               ->with($offset)
+               ->once();
+
+        unset($subject[$offset]);
+    }
 }

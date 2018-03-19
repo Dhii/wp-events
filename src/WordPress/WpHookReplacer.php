@@ -2,7 +2,9 @@
 
 namespace Dhii\EventManager\WordPress;
 
+use ArrayAccess;
 use Dhii\EventManager\WordPress\Exception\StoppedPropagationExceptionInterface;
+use Iterator;
 use WP_Hook;
 
 /**
@@ -11,7 +13,7 @@ use WP_Hook;
  *
  * @since [*next-version*]
  */
-class WpHookReplacer
+class WpHookReplacer implements Iterator, ArrayAccess
 {
     /**
      * The original WP_Hook instance to proxy to.
@@ -23,6 +25,13 @@ class WpHookReplacer
     protected $wpHook;
 
     /**
+     * Hook callbacks, pointing to the original.
+     *
+     * @var array
+     */
+    public $callbacks;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -32,6 +41,7 @@ class WpHookReplacer
     public function __construct(WP_Hook $wpHook)
     {
         $this->wpHook = $wpHook;
+        $this->callbacks = &$wpHook->callbacks;
     }
 
     /**
@@ -74,5 +84,95 @@ class WpHookReplacer
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function current()
+    {
+        return $this->wpHook->current();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function next()
+    {
+        return $this->wpHook->next();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function key()
+    {
+        return $this->wpHook->key();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function valid()
+    {
+        return $this->wpHook->valid();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function rewind()
+    {
+        return $this->wpHook->rewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function offsetExists($offset)
+    {
+        return $this->wpHook->offsetExists($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function offsetGet($offset)
+    {
+        return $this->wpHook->offsetGet($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function offsetSet($offset, $value)
+    {
+        return $this->wpHook->offsetSet($offset, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function offsetUnset($offset)
+    {
+        return $this->wpHook->offsetUnset($offset);
     }
 }
