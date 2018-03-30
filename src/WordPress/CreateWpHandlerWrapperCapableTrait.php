@@ -80,14 +80,7 @@ trait CreateWpHandlerWrapperCapableTrait
                 );
             }
 
-            // Return event, or first event param if argument was not an event
-            if ($isEvent) {
-                return $event;
-            }
-
-            $params = $event->getParams();
-
-            return reset($params);
+            return $event->getParam(0);
         };
     }
 

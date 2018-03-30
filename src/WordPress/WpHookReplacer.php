@@ -76,11 +76,7 @@ class WpHookReplacer implements Iterator, ArrayAccess
             $value = $this->wpHook->apply_filters($value, $args);
         } catch (StoppedPropagationExceptionInterface $stoppedPropagationException) {
             $event = $stoppedPropagationException->getEvent();
-
-            if ($event !== null) {
-                $params = $event->getParams();
-                $value = reset($params);
-            }
+            $value = $event->getParam(0);
         }
 
         return $value;
