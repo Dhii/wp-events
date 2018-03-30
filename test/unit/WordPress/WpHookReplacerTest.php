@@ -262,6 +262,13 @@ class WpHookReplacerTest extends TestCase
             uniqid('arg-'),
         ];
         $event = $this->createEvent(uniqid('event-'), null, $params);
+        $event->method('getParam')->willReturnCallback(
+            function($idx) use ($params) {
+                return isset($params[$idx])
+                    ? $params[$idx]
+                    : null;
+            }
+        );
 
         $exception = $this->createStoppedPropagationException();
         $exception->expects($this->once())

@@ -5,6 +5,7 @@ namespace Dhii\EventManager\WordPress\FuncTest;
 use Dhii\EventManager\WordPress\CreateWpHandlerWrapperCapableTrait as TestSubject;
 use Exception;
 use Psr\EventManager\EventInterface;
+use stdClass;
 use Xpmock\TestCase;
 use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -224,7 +225,11 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $event = $this->createEvent($name);
+        $params = [
+            0 => new stdClass(),
+            1 => uniqid('param')
+        ];
+        $event = $this->createEvent($name, null, $params);
         $throw = false;
 
         $subject->expects($this->never())->method('_getCachedEvent');
@@ -235,7 +240,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $wrapper = $reflect->_createWpHandlerWrapper($name, $handler, $throw);
         $result = $wrapper($event);
 
-        $this->assertSame($event, $result, 'Result of the wrapper is not the event the event given to it.');
+        $this->assertSame($event->getParams()[0], $result, 'Result of the wrapper is not param(0) in the event.');
     }
 
     /**
@@ -272,11 +277,11 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
 
     /**
      * Tests the `_createWpHandlerWrapper` method to assert whether the return wrapper function can return the first
-     * event argument when the arguments as all mapped to string keys.
+     * event argument when the handler overrides it.
      *
      * @since [*next-version*]
      */
-    public function testHandlerWrapperWithAssocArgs()
+    public function testHandlerWrapperOverrideParamZero()
     {
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
@@ -293,12 +298,10 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
                 ->with($name, $params)
                 ->willReturn($event);
 
-        $key = uniqid('key-');
         $param = uniqid('param-');
-        $handler = function($arg) use ($event, $key, $param) {
-            $this->assertSame($event, $arg, 'Handler did not receive the event given to the wrapper.');
+        $handler = function($arg) use ($event, $param) {
             // Change params, using a non-numeric key
-            $arg->setParams([$key => $param]);
+            $arg->setParams([0 => $param]);
         };
         $wrapper = $reflect->_createWpHandlerWrapper($name, $handler, $throw);
         $result = $wrapper($arg1, $arg2);
