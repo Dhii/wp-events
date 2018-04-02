@@ -34,8 +34,13 @@ trait HashCallableCapableTrait
             $key = $this->_normalizeString($callable);
         } elseif (is_object($callable)) {
             $key = spl_object_hash($callable);
-        } elseif (is_array($callable)) {
-            $key = serialize($callable);
+        } elseif (is_array($callable) && count($callable) == 2) {
+            $part1 = is_object($callable[0])
+                ? spl_object_hash($callable[0])
+                : $this->_normalizeString($callable[0]);
+            $part2 = $this->_normalizeString($callable[1]);
+
+            $key = serialize([$part1, $part2]);
         }
 
         if ($key === null) {

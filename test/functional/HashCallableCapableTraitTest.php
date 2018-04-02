@@ -239,6 +239,11 @@ class HashCallableCapableTraitTest extends TestCase
         $array = [uniqid('object-'), uniqid('method-')];
         $expected = sha1(serialize($array));
 
+        $subject->expects($this->exactly(2))
+                ->method('_normalizeString')
+                ->withConsecutive([$array[0]], [$array[1]])
+                ->willReturnOnConsecutiveCalls($array[0], $array[1]);
+
         $actual = $reflect->_hashCallable($array);
 
         $this->assertEquals($expected, $actual, 'Expected and retrieved hashes do not match.');
