@@ -75,7 +75,7 @@ trait EventCacheTrait
 
         // Create event instance if it does not exist
         if (!$this->_hasCachedEvent($name)) {
-            $this->_createCachedEvent($name, $args);
+            $this->_createCachedEvent($event, $args);
         }
 
         return $this->eventCache[$name];
