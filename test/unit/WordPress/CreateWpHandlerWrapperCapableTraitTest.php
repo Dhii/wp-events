@@ -232,7 +232,10 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $event = $this->createEvent($name, null, $params);
         $throw = false;
 
-        $subject->expects($this->never())->method('_getCachedEvent');
+        $subject->expects($this->once())
+                ->method('_getCachedEvent')
+                ->with($event)
+                ->willReturn($event);
 
         $handler = function($arg) use ($event) {
             $this->assertSame($event, $arg, 'Handler did not receive the event given to the wrapper.');
@@ -324,6 +327,11 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $event = $this->createEvent($name, null, [], false);
         $throw = false;
 
+        $subject->expects($this->once())
+                ->method('_getCachedEvent')
+                ->with($event)
+                ->willReturn($event);
+
         $handler = function($arg) use ($event) {
             $this->fail('Handler was not expected to be invoked.');
         };
@@ -351,6 +359,11 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $throw = true;
 
         $event->method('isPropagationStopped')->willReturn(true);
+
+        $subject->expects($this->once())
+                ->method('_getCachedEvent')
+                ->with($event)
+                ->willReturn($event);
 
         $subject->expects($this->once())
                 ->method('_createStoppedPropagationException')

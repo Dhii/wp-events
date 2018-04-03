@@ -58,13 +58,14 @@ trait CreateWpHandlerWrapperCapableTrait
             $firstArg = count($fnArgs) === 1
                 ? $fnArgs[0]
                 : null;
-            $isEvent = $firstArg instanceof EventInterface;
 
-            // Use argument-given event instance or get event from cache
-            /* @var $event \Psr\EventManager\EventInterface */
-            $event = $isEvent
-                ? $firstArg
-                : $eventCache->_getCachedEvent($name, $fnArgs);
+            if ($firstArg instanceof EventInterface) {
+                // If first argument is an event instance, put in cache
+                $event = $eventCache->_getCachedEvent($firstArg);
+            } else {
+                // Creates and retrieves an instance if an event name
+                $event = $eventCache->_getCachedEvent($name, $fnArgs);
+            }
 
             // Call original handler if propagation is not stopped
             if (!$event->isPropagationStopped()) {
