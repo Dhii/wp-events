@@ -26,13 +26,17 @@ trait EventCacheTrait
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event.
+     * @param string|Stringable|EventInterface $event The name of the event, or the event instance.
+     * @param array                            $args  Optional array of event arguments.
      *
      * @return EventInterface The created event instance.
      */
-    protected function _createCachedEvent($name)
+    protected function _createCachedEvent($event, array $args = [])
     {
-        return $this->eventCache[$name] = $this->_createEvent($name);
+        $event = $this->_normalizeEvent($event, $args);
+        $name = $event->getName();
+
+        return $this->eventCache[$name] = $event;
     }
 
     /**
@@ -40,12 +44,16 @@ trait EventCacheTrait
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event.
+     * @param string|Stringable|EventInterface $event The name of the event, or the event instance.
      *
      * @return bool True if an event instance exists for the given event name, false otherwise.
      */
-    protected function _hasCachedEvent($name)
+    protected function _hasCachedEvent($event)
     {
+        $name = ($event instanceof EventInterface)
+            ? $event->getName()
+            : $event;
+
         return isset($this->eventCache[$name]);
     }
 
@@ -54,19 +62,23 @@ trait EventCacheTrait
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event.
-     * @param array  $args Optional array of event arguments.
+     * @param string|Stringable|EventInterface $event The name of the event, or the event instance.
+     * @param array                            $args  Optional array of event arguments.
      *
      * @return EventInterface The event instance.
      */
-    protected function _getCachedEvent($name, array $args = [])
+    protected function _getCachedEvent($event, array $args = [])
     {
+        $name = ($event instanceof EventInterface)
+            ? $event->getName()
+            : $event;
+
         // Create event instance if it does not exist
         if (!$this->_hasCachedEvent($name)) {
-            $this->_createCachedEvent($name);
+            $this->_createCachedEvent($name, $args);
         }
 
-        return $this->_normalizeEvent($this->eventCache[$name], $args);
+        return $this->eventCache[$name];
     }
 
     /**
@@ -74,12 +86,16 @@ trait EventCacheTrait
      *
      * @since [*next-version*]
      *
-     * @param string $name The name of the event.
+     * @param string|Stringable|EventInterface $event The name of the event, or the event instance.
      *
      * @return $this This instance.
      */
-    protected function _removeCachedEvent($name)
+    protected function _removeCachedEvent($event)
     {
+        $name = ($event instanceof EventInterface)
+            ? $event->getName()
+            : $event;
+
         unset($this->eventCache[$name]);
 
         return $this;
@@ -98,18 +114,4 @@ trait EventCacheTrait
      * @return EventInterface The event instance.
      */
     abstract protected function _normalizeEvent($event, $params = [], $target = null);
-
-    /**
-     * Creates a new event instance.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $name        The event name.
-     * @param array  $params      The event parameters.
-     * @param mixed  $target      The target object. Used for context.
-     * @param bool   $propagation True to propagate the event, false to not.
-     *
-     * @return EventInterface The new event.
-     */
-    abstract protected function _createEvent($name, $params = [], $target = null, $propagation = true);
 }

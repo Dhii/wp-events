@@ -36,8 +36,7 @@ class EventCacheTraitTest extends TestCase
         $methods = $this->mergeValues(
             $methods,
             [
-                '_normalizeEvent',
-                '_createEvent',
+                '_normalizeEvent'
             ]
         );
 
@@ -181,7 +180,7 @@ class EventCacheTraitTest extends TestCase
         $event = $this->createEvent($name);
 
         $subject->expects($this->once())
-                ->method('_createEvent')
+                ->method('_normalizeEvent')
                 ->with($name)
                 ->willReturn($event);
 
@@ -206,7 +205,7 @@ class EventCacheTraitTest extends TestCase
         $name1 = uniqid('event-');
         $name2 = uniqid('event-');
 
-        $subject->method('_createEvent')->willReturn($this->createEvent());
+        $subject->method('_normalizeEvent')->willReturn($this->createEvent($name1));
         $reflect->_createCachedEvent($name1);
 
         $this->assertTrue(
@@ -235,27 +234,21 @@ class EventCacheTraitTest extends TestCase
             uniqid('key-') => uniqid('value-'),
             uniqid('key-') => uniqid('value-'),
         ];
-        $event = $this->createEvent();
-        $normalizedEvent = $this->createEvent();
-
-        // Pre-create event
-        $subject->expects($this->once())
-                ->method('_createEvent')
-                ->with($name)
-                ->willReturn($event);
-        $reflect->_createCachedEvent($name);
+        $event = $this->createEvent($name);
 
         $subject->expects($this->once())
                 ->method('_normalizeEvent')
-                ->with($event, $args)
-                ->willReturn($normalizedEvent);
+                ->with($name)
+                ->willReturn($event);
+
+        $reflect->_createCachedEvent($name);
 
         // Expect method to not be called again
         $subject->expects($this->never())->method('_createEvent');
 
         $actual = $reflect->_getCachedEvent($name, $args);
 
-        $this->assertSame($normalizedEvent, $actual, 'Retrieved event is not the normalized, created event.');
+        $this->assertSame($event, $actual, 'Retrieved event is not the normalized, created event.');
     }
 
     /**
@@ -274,22 +267,16 @@ class EventCacheTraitTest extends TestCase
             uniqid('key-') => uniqid('value-'),
             uniqid('key-') => uniqid('value-'),
         ];
-        $event = $this->createEvent();
-        $normalizedEvent = $this->createEvent();
-
-        $subject->expects($this->once())
-                ->method('_createEvent')
-                ->with($name)
-                ->willReturn($event);
+        $event = $this->createEvent($name);
 
         $subject->expects($this->once())
                 ->method('_normalizeEvent')
-                ->with($event, $args)
-                ->willReturn($normalizedEvent);
+                ->with($name, $args)
+                ->willReturn($event);
 
         $actual = $reflect->_getCachedEvent($name, $args);
 
-        $this->assertSame($normalizedEvent, $actual, 'Retrieved event is not the normalized, created event.');
+        $this->assertSame($event, $actual, 'Retrieved event is not the normalized, created event.');
     }
 
     /**
@@ -303,14 +290,19 @@ class EventCacheTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('event-');
+        $event = $this->createEvent($name);
 
-        $subject->method('_createEvent')->willReturn($this->createEvent());
+        $subject->expects($this->once())
+                ->method('_normalizeEvent')
+                ->with($name)
+                ->willReturn($event);
+
         $reflect->_createCachedEvent($name);
 
         $reflect->_removeCachedEvent($name);
 
         $this->assertFalse(
-            isset($reflect->eventCache[$name]),
+            $reflect->_hasCachedEvent($name),
             'Cached event was not removed.'
         );
     }
