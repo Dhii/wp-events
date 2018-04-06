@@ -15,7 +15,7 @@
         "php": "^5.4 | ^7.0",
         "dhii/psr-14": "^0.1",
         "dhii/normalization-helper-base": "^0.1-alpha2",
-        "dhii/exception": "0.1-alpha4",
+        "dhii/exception": "^0.1-alpha4",
         "dhii/i18n-helper-base": "^0.1"
     },
     "require-dev": {
