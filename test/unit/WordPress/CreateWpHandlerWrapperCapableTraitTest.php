@@ -87,19 +87,19 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $mock->method('getName')->willReturn($name);
         $mock->method('getTarget')->willReturn($target);
         $mock->method('getParams')->willReturnCallback(
-            function() use (&$params) {
+            function () use (&$params) {
                 return $params;
             }
         );
         $mock->method('getParam')->willReturnCallback(
-            function($name) use (&$params) {
+            function ($name) use (&$params) {
                 return isset($params[$name])
                     ? $params[$name]
                     : null;
             }
         );
         $mock->method('setParams')->willReturnCallback(
-            function($arg) use (&$params) {
+            function ($arg) use (&$params) {
                 $params = $arg;
             }
         );
@@ -200,7 +200,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $throw = false;
 
@@ -227,7 +227,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
         $name = uniqid('name-');
         $params = [
             0 => new stdClass(),
-            1 => uniqid('param')
+            1 => uniqid('param'),
         ];
         $event = $this->createEvent($name, null, $params);
         $throw = false;
@@ -237,7 +237,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
                 ->with($event)
                 ->willReturn($event);
 
-        $handler = function($arg) use ($event) {
+        $handler = function ($arg) use ($event) {
             $this->assertSame($event, $arg, 'Handler did not receive the event given to the wrapper.');
         };
         $wrapper = $reflect->_createWpHandlerWrapper($name, $handler, $throw);
@@ -269,7 +269,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
                 ->with($name, $params)
                 ->willReturn($event);
 
-        $handler = function($arg) use ($event) {
+        $handler = function ($arg) use ($event) {
             $this->assertSame($event, $arg, 'Handler did not receive the event given to the wrapper.');
         };
         $wrapper = $reflect->_createWpHandlerWrapper($name, $handler, $throw);
@@ -302,7 +302,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
                 ->willReturn($event);
 
         $param = uniqid('param-');
-        $handler = function($arg) use ($event, $param) {
+        $handler = function ($arg) use ($event, $param) {
             // Change params, using a non-numeric key
             $arg->setParams([0 => $param]);
         };
@@ -332,7 +332,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
                 ->with($event)
                 ->willReturn($event);
 
-        $handler = function($arg) use ($event) {
+        $handler = function ($arg) use ($event) {
             $this->fail('Handler was not expected to be invoked.');
         };
         $wrapper = $reflect->_createWpHandlerWrapper($name, $handler, $throw);
@@ -354,7 +354,7 @@ class CreateWpHandlerWrapperCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $event = $this->createEvent($name, null, [], false);
-        $handler = function($arg) use ($event) {
+        $handler = function ($arg) use ($event) {
         };
         $throw = true;
 

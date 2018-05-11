@@ -34,7 +34,7 @@ trait EventCacheTrait
     protected function _createCachedEvent($event, array $args = [])
     {
         $event = $this->_normalizeEvent($event, $args);
-        $name = $event->getName();
+        $name  = $event->getName();
 
         return $this->eventCache[$name] = $event;
     }

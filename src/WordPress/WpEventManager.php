@@ -7,7 +7,6 @@ use Dhii\EventManager\EventCacheTrait;
 use Dhii\EventManager\HashCallableCapableTrait;
 use Dhii\EventManager\NormalizeEventCapableTrait;
 use Dhii\EventManager\WordPress\Exception\CreateStoppedPropagationExceptionCapableTrait;
-use Dhii\EventManager\WordPress\Exception\StoppedPropagationExceptionInterface;
 use Dhii\Exception\CreateInternalExceptionCapableTrait;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\Exception\CreateOutOfRangeExceptionCapableTrait;
@@ -15,11 +14,9 @@ use Dhii\Exception\InternalException;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Util\Normalization\NormalizeIntCapableTrait;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
-use Dhii\Util\String\StringableInterface as Stringable;
 use Exception;
 use Psr\EventManager\EventInterface;
 use Psr\EventManager\EventManagerInterface;
-use ReflectionException;
 use ReflectionMethod;
 
 /**
@@ -248,7 +245,7 @@ class WpEventManager implements EventManagerInterface
      */
     public function attach($event, $callback, $priority = null)
     {
-        $event = $this->_normalizeEvent($event)->getName();
+        $event   = $this->_normalizeEvent($event)->getName();
         $handler = $this->_getWpHandlerWrapper($event, $callback);
 
         $this->_addWpHook($event, $handler, $priority, 1);
@@ -261,7 +258,7 @@ class WpEventManager implements EventManagerInterface
      */
     public function detach($event, $callback, $priority = null)
     {
-        $event = $this->_normalizeEvent($event)->getName();
+        $event   = $this->_normalizeEvent($event)->getName();
         $handler = $this->_getWpHandlerWrapper($event, $callback);
 
         $this->_removeWpHook($event, $handler, $priority);
@@ -284,7 +281,7 @@ class WpEventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = [])
     {
-        $event = $this->_normalizeEvent($event, $argv, $target);
+        $event  = $this->_normalizeEvent($event, $argv, $target);
         $result = $this->_runWpHook($event->getName(), [$event]);
 
         return $result;
@@ -308,7 +305,7 @@ class WpEventManager implements EventManagerInterface
     protected function _hashWpHandler($name, $handler)
     {
         $handlerHash = $this->_hashCallable($handler);
-        $pair = sprintf('%1$s|%2$s', $name, $handlerHash);
+        $pair        = sprintf('%1$s|%2$s', $name, $handlerHash);
 
         return sha1($pair);
     }

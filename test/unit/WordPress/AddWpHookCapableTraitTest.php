@@ -5,7 +5,6 @@ namespace Dhii\EventManager\WordPress\FuncTest;
 use Dhii\EventManager\WordPress\AddWpHookCapableTrait as TestSubject;
 use Exception as RootException;
 use InvalidArgumentException;
-use Mockery\MockInterface;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use WP_Mock;
 use Xpmock\TestCase;
@@ -165,7 +164,7 @@ class AddWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
         $nPriority = rand(0, 100);
@@ -200,7 +199,7 @@ class AddWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
         $numArgs = rand(0, 10);
@@ -230,7 +229,7 @@ class AddWpHookCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
         $numArgs = rand(0, 10);
@@ -255,7 +254,7 @@ class AddWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $defPriority = rand(0, 100);
         $numArgs = rand(0, 10);
@@ -293,7 +292,7 @@ class AddWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
         $nPriority = rand(0, 100);

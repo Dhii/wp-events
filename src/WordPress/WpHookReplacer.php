@@ -40,7 +40,7 @@ class WpHookReplacer implements Iterator, ArrayAccess
      */
     public function __construct(WP_Hook $wpHook)
     {
-        $this->wpHook = $wpHook;
+        $this->wpHook    = $wpHook;
         $this->callbacks = &$wpHook->callbacks;
     }
 

@@ -52,7 +52,7 @@ class NormalizeEventCapableTraitTest extends TestCase
 
         $mock->method('__')->willReturnArgument(0);
         $mock->method('_createInvalidArgumentException')->willReturnCallback(
-            function($m, $c, $p, $a) {
+            function ($m, $c, $p, $a) {
                 return new InvalidArgumentException($m, $c, $p);
             }
         );

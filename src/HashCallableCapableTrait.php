@@ -21,10 +21,10 @@ trait HashCallableCapableTrait
      *
      * @param callable|Stringable $callable The callable to hash.
      *
-     * @return string A hash of the callable.
-     *
-     * @throws OutOfRangeException If the argument is not a valid callable.
+     * @throws OutOfRangeException      If the argument is not a valid callable.
      * @throws InvalidArgumentException If argument is a string/stringable and cannot be normalized.
+     *
+     * @return string A hash of the callable.
      */
     protected function _hashCallable($callable)
     {

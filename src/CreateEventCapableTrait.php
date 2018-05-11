@@ -2,7 +2,6 @@
 
 namespace Dhii\EventManager;
 
-use Dhii\EventManager\Event;
 use Psr\EventManager\EventInterface;
 
 /**

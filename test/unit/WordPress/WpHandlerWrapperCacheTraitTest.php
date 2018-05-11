@@ -140,11 +140,11 @@ class WpHandlerWrapperCacheTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $callback = function() {
+        $callback = function () {
         };
         $hash = uniqid('hash-');
         $throwPropStop = (bool) rand(0, 1);
-        $wrapper = function() {
+        $wrapper = function () {
         };
 
         $subject->expects($this->once())
@@ -186,10 +186,10 @@ class WpHandlerWrapperCacheTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $callback = function() {
+        $callback = function () {
         };
         $hash = uniqid('hash-');
-        $wrapper = function() {
+        $wrapper = function () {
         };
 
         $reflect->handlerWrappers = [

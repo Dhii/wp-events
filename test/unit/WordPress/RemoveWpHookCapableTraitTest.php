@@ -165,7 +165,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
         $nPriority = rand(0, 100);
@@ -183,7 +183,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
         WP_Mock::wpFunction(
             'remove_filter',
             [
-                'args'  => [$nName, Functions::type('callable'), $nPriority],
+                'args' => [$nName, Functions::type('callable'), $nPriority],
                 'times' => 1,
             ]
         );
@@ -204,7 +204,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
 
@@ -233,7 +233,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
         $reflect = $this->reflect($subject);
 
         $name = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $priority = rand(0, 100);
 
@@ -257,7 +257,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
 
         $name = uniqid('name-');
         $nName = uniqid('name-');
-        $handler = function() {
+        $handler = function () {
         };
         $defPriority = rand(0, 100);
 
@@ -273,7 +273,7 @@ class RemoveWpHookCapableTraitTest extends TestCase
         WP_Mock::wpFunction(
             'remove_filter',
             [
-                'args'  => [$nName, Functions::type('callable'), $defPriority],
+                'args' => [$nName, Functions::type('callable'), $defPriority],
                 'times' => 1,
             ]
         );

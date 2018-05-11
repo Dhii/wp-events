@@ -36,7 +36,7 @@ class EventCacheTraitTest extends TestCase
         $methods = $this->mergeValues(
             $methods,
             [
-                '_normalizeEvent'
+                '_normalizeEvent',
             ]
         );
 

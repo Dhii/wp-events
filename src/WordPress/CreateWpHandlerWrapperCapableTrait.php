@@ -7,8 +7,6 @@ use Dhii\EventManager\WordPress\Exception\StoppedPropagationExceptionInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Exception as RootException;
 use Psr\EventManager\EventInterface;
-use ReflectionException;
-use ReflectionMethod;
 
 /**
  * Functionality for creating WordPress handler wrappers.
@@ -52,7 +50,7 @@ trait CreateWpHandlerWrapperCapableTrait
          * $throwOnPropStop - If true, an exception is thrown when propagation is stopped.
          */
 
-        return function() use ($name, &$callback, $eventCache, $throwOnPropStop) {
+        return function () use ($name, &$callback, $eventCache, $throwOnPropStop) {
             $fnArgs = func_get_args();
             // Detect whether the first argument given to the handler is an EventInterface
             $firstArg = count($fnArgs) === 1

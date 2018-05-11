@@ -147,7 +147,7 @@ class AttachMethodHandlerCapableTraitTest extends TestCase
         $methodName = uniqid('method-');
         $nMethodName = uniqid('method-');
         $priority = rand(0, 100);
-        $closure = function() {
+        $closure = function () {
         };
         $refMethod = $this->getMockBuilder('ReflectionMethod')
                           ->setMethods(['getClosure'])
