@@ -2,3 +2,9 @@
 /vendor/
 /test/log/
 /test/coverage/
+/.idea/dictionaries/
+/.idea/codeStyles/
+/.idea/tasks.xml
+/.idea/workspace.xml
+/.idea/deployment.xml
+/.idea/misc.xml

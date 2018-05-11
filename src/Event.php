@@ -1,58 +1,58 @@
 <?php
 
-namespace Dhii\WpEvents;
+namespace Dhii\EventManager;
 
 use Psr\EventManager\EventInterface;
 
 /**
- * Event.
+ * Concrete implementation of an event.
  *
- * @author Miguel Muscat <miguelmuscat93@gmail.com>
+ * @since [*next-version*]
  */
 class Event implements EventInterface
 {
     /**
      * The event name.
-     * 
+     *
      * @var string
      */
     protected $name;
 
     /**
      * The parameters.
-     * 
+     *
      * @var array
      */
     protected $params;
 
     /**
      * The target context object.
-     * 
+     *
      * @var mixed
      */
     protected $target;
 
     /**
      * The propagation flag.
-     * 
-     * @var booleans
+     *
+     * @var bool
      */
     protected $propagation;
 
     /**
      * Constructs a new instance.
-     * 
+     *
      * @param string $name        The event name.
      * @param array  $params      The event parameters.
      * @param mixed  $target      The target object. Used for context.
      * @param bool   $propagation True to propagate the event, false to not.
      */
-    public function __construct($name, array $params = array(), $target = null, $propagation = true)
+    public function __construct($name, array $params = [], $target = null, $propagation = true)
     {
         $this->setName($name)
-            ->setParams($params)
-            ->setTarget($target)
-            ->setPropagation($propagation);
+             ->setParams($params)
+             ->setTarget($target)
+             ->setPropagation($propagation);
     }
 
     /**
@@ -139,7 +139,7 @@ class Event implements EventInterface
 
     /**
      * Sets the event propagation.
-     * 
+     *
      * @param bool $propagation True to propagate, false to not.
      *
      * @return Event This instance.

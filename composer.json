@@ -9,27 +9,37 @@
             "email": "development@dhii.co"
         }
     ],
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
-        "php": "^5.3.9 | ^7.0",
-        "dhii/psr-14": "~0.1"
+        "php": "^5.4 | ^7.0",
+        "dhii/psr-14": "^0.1",
+        "dhii/normalization-helper-base": "^0.1-alpha2",
+        "dhii/exception": "^0.1-alpha4",
+        "dhii/i18n-helper-base": "^0.1"
     },
     "require-dev": {
+        "10up/wp_mock": "^0.1.1",
+        "doctrine/instantiator": ">=1.0.5 <1.1.0",
         "dhii/php-cs-fixer-config": "dev-php-5.3",
-        "phpunit/phpunit": "4.*",
-        "10up/wp_mock": "dev-dev",
+        "phpunit/phpunit": "^4.8",
         "ptrofimov/xpmock": "^1.1",
-        "mockery/mockery": "^0.9.5"
+        "dhii/stringable-interface": "^0.1"
     },
     "autoload": {
         "psr-4": {
-            "Dhii\\WpEvents\\" : "src/"
+            "Dhii\\EventManager\\" : "src/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Dhii/psr-14"
+    "autoload-dev": {
+        "psr-4": {
+            "Dhii\\EventManager\\UnitTest\\" : "test/unit",
+            "Dhii\\EventManager\\FuncTest\\" : "test/functional"
         }
-    ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
+    }
 }
