@@ -22,19 +22,17 @@ trait AttachMethodHandlerCapableTrait
      * @param string|Stringable $eventName  The name of the event to attach to.
      * @param string|Stringable $methodName The name of the method to attach.
      * @param int|null          $priority   The priority to attach with.
+     * @param int|null          $numArgs    The number of arguments to accept from the event invoker.
      *
-     * @throws ReflectionException      If a handler for the method could not be retrieved.
-     * @throws InvalidArgumentException If the given event name is not a valid string.
-     * @throws InvalidArgumentException If the given method name is not a valid string.
-     * @throws InvalidArgumentException If the given priority is not a valid integer.
+     * @throws ReflectionException If a handler for the method could not be retrieved.
      */
-    protected function _attachMethodHandler($eventName, $methodName, $priority = null)
+    protected function _attachMethodHandler($eventName, $methodName, $priority = null, $numArgs = 1)
     {
         $methodName = $this->_normalizeString($methodName);
         $reflection = $this->_createReflectionMethod(get_class($this), $methodName);
         $handler    = $reflection->getClosure($this);
 
-        $this->_addWpHook($eventName, $handler, $priority);
+        $this->_addWpHook($eventName, $handler, $priority, $numArgs);
     }
 
     /**
