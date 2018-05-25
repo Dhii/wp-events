@@ -185,6 +185,13 @@ class WpEventManager implements EventManagerInterface
     const DEFAULT_PRIORITY = 10;
 
     /**
+     * The default argument count to pass to the WordPress action and filter hooking functions.
+     *
+     * @since [*next-version*]
+     */
+    const DEFAULT_NUM_ARGS = PHP_INT_MAX;
+
+    /**
      * The hook name to which to attach the CCE handler.
      *
      * @since [*next-version*]
@@ -201,6 +208,15 @@ class WpEventManager implements EventManagerInterface
     protected $replaceWpHooks;
 
     /**
+     * The argument count value to pass to the native WordPress action and filter hooking functions.
+     *
+     * @since [*next-version*]
+     *
+     * @var int
+     */
+    protected $numArgs;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -210,13 +226,17 @@ class WpEventManager implements EventManagerInterface
      *                                stop propagation. If false, stopping propagation will not affect handlers
      *                                registered through WordPress functions.
      *
-     * @throws InternalException If a problem occurred while registering the CCE handler.
+     * @param int  $numArgs           The argument count value to pass to the native WordPress action and filter
+     *                                hooking functions. Must be positive.
+     *
      * @throws InternalException If a problem occurred while registering the WP_Hook replacer handler.
      */
-    public function __construct($enablePropagation = false)
+    public function __construct($enablePropagation = false, $numArgs = self::DEFAULT_NUM_ARGS)
     {
+        $this->_setNumArgs($numArgs);
+
         try {
-            $this->_attachMethodHandler(static::WP_ALL_HOOK, '_removeCachedEvent', 0);
+            $this->_attachMethodHandler(static::WP_ALL_HOOK, '_removeCachedEvent', 0, $numArgs);
         } catch (Exception $e) {
             throw $this->_createInternalException(
                 $this->__('Failed to register the clear-cache-event handler to the `all` hook'),
@@ -227,7 +247,7 @@ class WpEventManager implements EventManagerInterface
 
         try {
             if ($this->replaceWpHooks = $enablePropagation) {
-                $this->_attachMethodHandler(static::WP_ALL_HOOK, '_replaceWpHook', 1);
+                $this->_attachMethodHandler(static::WP_ALL_HOOK, '_replaceWpHook', 1, $numArgs);
             }
         } catch (Exception $e) {
             throw $this->_createInternalException(
@@ -236,6 +256,39 @@ class WpEventManager implements EventManagerInterface
                 $e
             );
         }
+    }
+
+    /**
+     * Retrieves the argument count value to pass to the native WordPress action and filter hooking functions.
+     *
+     * @since [*next-version*]
+     *
+     * @return int
+     */
+    protected function _getNumArgs()
+    {
+        return $this->numArgs;
+    }
+
+    /**
+     * Sets the argument count value to pass to the native WordPress action and filter hooking functions.
+     *
+     * @since [*next-version*]
+     *
+     * @param int $numArgs A positive argument count to pass to the native WordPress action and filter hooking
+     *                     functions.
+     */
+    protected function _setNumArgs($numArgs)
+    {
+        $numArgs = $this->_normalizeInt($numArgs);
+
+        if ($numArgs < 0) {
+            throw $this->_createInvalidArgumentException(
+                $this->__('Number of arguments cannot be smaller than zero'), null, null, $numArgs
+            );
+        }
+
+        $this->numArgs = $numArgs;
     }
 
     /**
@@ -248,7 +301,7 @@ class WpEventManager implements EventManagerInterface
         $event   = $this->_normalizeEvent($event)->getName();
         $handler = $this->_getWpHandlerWrapper($event, $callback);
 
-        $this->_addWpHook($event, $handler, $priority, 1);
+        $this->_addWpHook($event, $handler, $priority, $this->_getNumArgs());
     }
 
     /**
