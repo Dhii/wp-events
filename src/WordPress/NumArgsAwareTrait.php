@@ -32,7 +32,7 @@ trait NumArgsAwareTrait
      */
     protected function _getNumArgs()
     {
-        return $this->numArgs;
+        return (int) $this->numArgs;
     }
 
     /**

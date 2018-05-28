@@ -183,4 +183,17 @@ class NumArgsAwareTraitTest extends TestCase
         $numArgs = rand(- 1, - 100);
         $reflect->_setNumArgs($numArgs);
     }
+
+    /**
+     * Tests the getter methods to assert whether zero is returned when the property is not initialized.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetNumArgsUninitialized()
+    {
+        $subject = $this->createInstance();
+        $reflect = $this->reflect($subject);
+
+        $this->assertSame(0, $reflect->_getNumArgs(), 'Expected and retrieved values are not equal.');
+    }
 }
