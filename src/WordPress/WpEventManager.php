@@ -122,6 +122,13 @@ class WpEventManager implements EventManagerInterface
     use NormalizeEventCapableTrait;
 
     /*
+     * Provides awareness of an argument count.
+     *
+     * @since [*next-version*]
+     */
+    use NumArgsAwareTrait;
+
+    /*
      * Provides integer normalization functionality.
      *
      * @since [*next-version*]
@@ -208,15 +215,6 @@ class WpEventManager implements EventManagerInterface
     protected $replaceWpHooks;
 
     /**
-     * The argument count value to pass to the native WordPress action and filter hooking functions.
-     *
-     * @since [*next-version*]
-     *
-     * @var int
-     */
-    protected $numArgs;
-
-    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -256,39 +254,6 @@ class WpEventManager implements EventManagerInterface
                 $e
             );
         }
-    }
-
-    /**
-     * Retrieves the argument count value to pass to the native WordPress action and filter hooking functions.
-     *
-     * @since [*next-version*]
-     *
-     * @return int
-     */
-    protected function _getNumArgs()
-    {
-        return $this->numArgs;
-    }
-
-    /**
-     * Sets the argument count value to pass to the native WordPress action and filter hooking functions.
-     *
-     * @since [*next-version*]
-     *
-     * @param int $numArgs A positive argument count to pass to the native WordPress action and filter hooking
-     *                     functions.
-     */
-    protected function _setNumArgs($numArgs)
-    {
-        $numArgs = $this->_normalizeInt($numArgs);
-
-        if ($numArgs < 0) {
-            throw $this->_createInvalidArgumentException(
-                $this->__('Number of arguments cannot be smaller than zero'), null, null, $numArgs
-            );
-        }
-
-        $this->numArgs = $numArgs;
     }
 
     /**
