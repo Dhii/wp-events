@@ -36,7 +36,7 @@ trait AddWpHookCapableTrait
             ? 1
             : $this->_normalizeInt($numArgs);
 
-        add_filter($name, $handler, $priority, $numArgs);
+        \add_filter($name, $handler, $priority, $numArgs);
     }
 
     /**

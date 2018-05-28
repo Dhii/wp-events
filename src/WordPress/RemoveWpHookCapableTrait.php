@@ -29,7 +29,7 @@ trait RemoveWpHookCapableTrait
             ? $this->_getWpHookDefaultPriority()
             : $this->_normalizeInt($priority);
 
-        remove_filter($name, $handler, $priority);
+        \remove_filter($name, $handler, $priority);
     }
 
     /**
