@@ -147,6 +147,7 @@ class AttachMethodHandlerCapableTraitTest extends TestCase
         $methodName = uniqid('method-');
         $nMethodName = uniqid('method-');
         $priority = rand(0, 100);
+        $numArgs = rand(0, 100);
         $closure = function () {
         };
         $refMethod = $this->getMockBuilder('ReflectionMethod')
@@ -169,9 +170,9 @@ class AttachMethodHandlerCapableTraitTest extends TestCase
 
         $subject->expects($this->once())
                 ->method('_addWpHook')
-                ->with($eventName, $closure, $priority);
+                ->with($eventName, $closure, $priority, $numArgs);
 
-        $reflect->_attachMethodHandler($eventName, $methodName, $priority);
+        $reflect->_attachMethodHandler($eventName, $methodName, $priority, $numArgs);
     }
 
     /**
@@ -188,6 +189,7 @@ class AttachMethodHandlerCapableTraitTest extends TestCase
         $methodName = uniqid('method-');
         $nMethodName = uniqid('method-');
         $priority = rand(0, 100);
+        $numArgs = rand(0, 100);
 
         $subject->expects($this->once())
                 ->method('_normalizeString')
@@ -201,7 +203,7 @@ class AttachMethodHandlerCapableTraitTest extends TestCase
 
         $this->setExpectedException('ReflectionException');
 
-        $reflect->_attachMethodHandler($eventName, $methodName, $priority);
+        $reflect->_attachMethodHandler($eventName, $methodName, $priority, $numArgs);
     }
 
     /**
