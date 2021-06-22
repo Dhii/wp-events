@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [next-version] - YYYY-DD-MM
+## [0.3.0] - 2021-06-22
+Stable release.
 
 ## [0.3.0-alpha2] - 2018-05-29
 ### Fixed
